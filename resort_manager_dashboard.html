@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resort Manager Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+
+        .card {
+            @apply bg-white p-6 rounded-2xl shadow-lg border border-slate-200 transition-transform hover:scale-[1.01] duration-200;
+        }
+
+        .action-btn {
+            @apply px-4 py-2 rounded-lg font-semibold text-sm transition-colors;
+        }
+
+        .status-pending {
+            @apply bg-orange-100 text-orange-800;
+        }
+
+        .status-approved {
+            @apply bg-green-100 text-green-800;
+        }
+
+        .status-canceled {
+            @apply bg-red-100 text-red-800;
+        }
+        
+        .nav-link {
+             @apply px-3 py-1 text-slate-200 hover:text-white transition-colors;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-slate-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-blue-800 text-white p-6 shadow-xl sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold">Manager Dashboard</h1>
+            <nav class="space-x-4 flex items-center">
+                <a href="#resort-info" class="nav-link">Information</a>
+                <a href="#availability" class="nav-link">Rooms</a>
+                <a href="#statistics" class="nav-link">Statistics</a>
+                <a href="#reservations" class="nav-link">Reservations</a>
+                <a href="#photo-gallery" class="nav-link">Photos</a>
+                <a href="#ratings" class="nav-link">Ratings</a>
+                <div class="flex items-center space-x-2 bg-blue-700 py-1 px-3 rounded-full ml-4">
+                    <span class="text-sm font-medium">Welcome, Alex!</span>
+                    <span class="text-xs font-light opacity-80">(Manager)</span>
+                </div>
+                <button id="logout-btn"
+                    class="bg-orange-500 text-white font-bold py-1 px-4 rounded-full hover:bg-orange-600 transition-colors">Logout</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container mx-auto p-4 md:p-8 space-y-8">
+
+        <!-- Resort Information Section -->
+        <section id="resort-info" class="card mt-8">
+            <h2 class="text-2xl font-bold text-blue-800 mb-4">Resort Information</h2>
+            <div id="resort-info-container" class="space-y-4">
+                <!-- Resort info will be populated by JS -->
+            </div>
+        </section>
+
+        <!-- Room Availability Section -->
+        <section id="availability" class="card">
+            <h2 class="text-2xl font-bold text-blue-800 mb-6">Room Availability & Classification</h2>
+            <div id="room-availability-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Room availability cards will be populated by JS -->
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section id="statistics" class="card">
+            <h2 class="text-2xl font-bold text-blue-800 mb-6">Resort Statistics</h2>
+            <div id="statistics-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Statistics cards will be populated by JS -->
+            </div>
+        </section>
+
+        <!-- Reservation Management Section -->
+        <section id="reservations" class="card">
+            <h2 class="text-2xl font-bold text-blue-800 mb-6">Reservation Management</h2>
+            <div class="overflow-x-auto rounded-lg shadow-inner">
+                <table class="w-full text-left table-auto">
+                    <thead>
+                        <tr class="bg-slate-200 text-slate-600 uppercase text-sm leading-normal">
+                            <th class="py-3 px-6 text-left">Guest Name</th>
+                            <th class="py-3 px-6 text-left">Room</th>
+                            <th class="py-3 px-6 text-left">Dates</th>
+                            <th class="py-3 px-6 text-center">Status</th>
+                            <th class="py-3 px-6 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reservations-table-body" class="text-sm font-light">
+                        <!-- Reservation rows will be populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Photo Gallery Section -->
+        <section id="photo-gallery" class="card">
+            <h2 class="text-2xl font-bold text-blue-800 mb-6">Inn Photo Gallery</h2>
+            <div class="mb-6 flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+                <label for="photo-upload" class="sr-only">Choose a photo</label>
+                <input type="file" id="photo-upload" accept="image/*" class="w-full md:w-auto p-2 border border-slate-300 rounded-lg">
+                <button onclick="addPhoto()" class="w-full md:w-auto py-2 px-6 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    Add Photo
+                </button>
+            </div>
+            <div id="photo-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Photos will be populated by JS -->
+            </div>
+        </section>
+
+        <!-- Customer Ratings Section -->
+        <section id="ratings" class="card">
+            <h2 class="text-2xl font-bold text-blue-800 mb-6">Customer Ratings</h2>
+            <div id="ratings-container" class="space-y-6">
+                <!-- Ratings cards will be populated by JS -->
+            </div>
+        </section>
+    </main>
+    
+    <!-- Custom Modal/Message Box -->
+    <div id="message-modal"
+        class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm text-center">
+            <h3 id="modal-title" class="text-xl font-bold mb-2 text-slate-800"></h3>
+            <p id="modal-message" class="text-slate-700 mb-6"></p>
+            <button id="modal-close-btn"
+                class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                OK
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // --- Helper functions for UI/UX ---
+        const messageModal = document.getElementById('message-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+
+        function showMessage(title, message) {
+            modalTitle.innerText = title;
+            modalMessage.innerText = message;
+            messageModal.classList.remove('hidden');
+            messageModal.classList.add('flex');
+        }
+
+        modalCloseBtn.addEventListener('click', () => {
+            messageModal.classList.add('hidden');
+            messageModal.classList.remove('flex');
+        });
+
+        // --- Mock Data ---
+        const resortInfo = {
+            name: 'Serenity Point Inn',
+            description: 'A tranquil oasis nestled in the heart of nature, offering a peaceful escape with stunning views and modern amenities.',
+            geolocation: '21.5432° N, 120.9876° E'
+        };
+
+        let roomAvailability = [{
+            type: 'Standard Room',
+            total: 20,
+            available: 15,
+            price: '₱1,000'
+        }, {
+            type: 'Deluxe Room',
+            total: 10,
+            available: 5,
+            price: '₱2,000'
+        }, {
+            type: 'Suite',
+            total: 5,
+            available: 2,
+            price: '₱3,500'
+        }, ];
+
+        const resortStats = {
+            totalRevenue: '₱250,000',
+            monthlyBookings: 45,
+            occupancyRate: '75%'
+        };
+
+        let reservations = [{
+            id: '1',
+            guest: 'John Doe',
+            room: 'Deluxe Room',
+            dates: 'Dec 15 - Dec 18',
+            status: 'pending'
+        }, {
+            id: '2',
+            guest: 'Jane Smith',
+            room: 'Standard Room',
+            dates: 'Dec 20 - Dec 22',
+            status: 'approved'
+        }, {
+            id: '3',
+            guest: 'Peter Jones',
+            room: 'Suite',
+            dates: 'Dec 25 - Dec 28',
+            status: 'pending'
+        }, {
+            id: '4',
+            guest: 'Emily White',
+            room: 'Standard Room',
+            dates: 'Dec 10 - Dec 12',
+            status: 'canceled'
+        }, ];
+
+        const customerRatings = [{
+            user: 'John D.',
+            rating: 5,
+            comment: 'Absolutely wonderful experience! The room was clean and the staff was incredibly friendly.',
+            date: '2023-11-20'
+        }, {
+            user: 'Maria S.',
+            rating: 4,
+            comment: 'Great location and good value for money. The breakfast could be better though.',
+            date: '2023-11-18'
+        }, {
+            user: 'Mark L.',
+            rating: 5,
+            comment: 'Perfect getaway! The view from our suite was breathtaking.',
+            date: '2023-11-15'
+        }, {
+            user: 'Sarah P.',
+            rating: 3,
+            comment: 'It was an average stay. Nothing special to note, but no major issues either.',
+            date: '2023-11-12'
+        }, ];
+        
+        let photos = [{
+            url: "https://placehold.co/400x300/a855f7/ffffff?text=Lobby+View",
+            caption: "The elegant lobby of our inn."
+        }, {
+            url: "https://placehold.co/400x300/3b82f6/ffffff?text=Room+Interior",
+            caption: "A comfortable and spacious Deluxe Room."
+        }, {
+            url: "https://placehold.co/400x300/22c55e/ffffff?text=Poolside+Area",
+            caption: "Relax by our sparkling clean swimming pool."
+        }];
+        
+        // --- Resort Information Logic ---
+        function renderResortInfo() {
+            const container = document.getElementById('resort-info-container');
+            const placeholderMapUrl = "https://placehold.co/600x400/3b82f6/ffffff?text=Map+of+Serenity+Point+Inn";
+            container.innerHTML = `
+                <div class="flex items-center space-x-4">
+                    <h3 class="text-xl font-bold text-blue-600">${resortInfo.name}</h3>
+                </div>
+                <p class="text-slate-700">${resortInfo.description}</p>
+                <div class="flex items-center space-x-2 text-sm text-slate-500 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.057 4.057a1 1 0 011.886 0L10 8.114l3.057-4.057a1 1 0 011.886 0L18 8.114V17a1 1 0 01-1 1H3a1 1 0 01-1-1V8.114L5.057 4.057zM8 12a2 2 0 114 0 2 2 0 01-4 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span>${resortInfo.geolocation}</span>
+                </div>
+                 <div class="mt-4 rounded-xl overflow-hidden shadow-lg border border-slate-200">
+                    <img src="${placeholderMapUrl}" alt="Location map of ${resortInfo.name}" class="w-full h-auto object-cover">
+                </div>
+            `;
+        }
+
+        // --- Room Availability Logic ---
+        function renderRoomAvailability() {
+            const container = document.getElementById('room-availability-container');
+            container.innerHTML = ''; // Clear previous content
+
+            roomAvailability.forEach(room => {
+                const card = document.createElement('div');
+                card.className = "card text-center";
+                card.innerHTML = `
+                    <h3 class="text-xl font-bold text-blue-600 mb-2">${room.type}</h3>
+                    <p class="text-sm text-slate-500 mb-4">Price per night: ${room.price}</p>
+                    <div class="text-3xl font-extrabold text-blue-800">${room.available}<span class="text-base font-normal"> / ${room.total}</span></div>
+                    <p class="text-sm font-semibold text-slate-600">Available Rooms</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+        
+        // --- Statistics Logic ---
+        function renderStatistics() {
+            const container = document.getElementById('statistics-container');
+            container.innerHTML = '';
+
+            const stats = [{
+                title: 'Total Revenue',
+                value: resortStats.totalRevenue,
+                description: 'This Year'
+            }, {
+                title: 'Bookings This Month',
+                value: resortStats.monthlyBookings,
+                description: 'Confirmed & Pending'
+            }, {
+                title: 'Average Occupancy',
+                value: resortStats.occupancyRate,
+                description: 'This Month'
+            }];
+
+            stats.forEach(stat => {
+                const card = document.createElement('div');
+                card.className = "card text-center";
+                card.innerHTML = `
+                    <h3 class="text-xl font-bold text-blue-600 mb-2">${stat.title}</h3>
+                    <p class="text-sm text-slate-500 mb-4">${stat.description}</p>
+                    <div class="text-3xl font-extrabold text-blue-800">${stat.value}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- Reservation Management Logic ---
+        function renderReservations() {
+            const tableBody = document.getElementById('reservations-table-body');
+            tableBody.innerHTML = ''; // Clear previous content
+
+            reservations.forEach(res => {
+                const row = document.createElement('tr');
+                let statusClass = '';
+                let actionsHtml = '';
+
+                switch (res.status) {
+                    case 'pending':
+                        statusClass = 'status-pending';
+                        actionsHtml = `
+                            <button onclick="changeReservationStatus('${res.id}', 'approved')" class="action-btn bg-green-500 text-white hover:bg-green-600 mr-2">Approve</button>
+                            <button onclick="changeReservationStatus('${res.id}', 'canceled')" class="action-btn bg-red-500 text-white hover:bg-red-600">Cancel</button>
+                        `;
+                        break;
+                    case 'approved':
+                        statusClass = 'status-approved';
+                        actionsHtml = `<span class="text-green-600 font-bold">Approved</span>`;
+                        break;
+                    case 'canceled':
+                        statusClass = 'status-canceled';
+                        actionsHtml = `<span class="text-red-600 font-bold">Canceled</span>`;
+                        break;
+                }
+
+                row.className = "border-b border-slate-200 hover:bg-slate-50";
+                row.innerHTML = `
+                    <td class="py-4 px-6">${res.guest}</td>
+                    <td class="py-4 px-6">${res.room}</td>
+                    <td class="py-4 px-6">${res.dates}</td>
+                    <td class="py-4 px-6 text-center"><span class="py-1 px-3 rounded-full text-xs font-bold ${statusClass}">${res.status.toUpperCase()}</span></td>
+                    <td class="py-4 px-6 text-center whitespace-nowrap">${actionsHtml}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function changeReservationStatus(id, newStatus) {
+            const reservationIndex = reservations.findIndex(res => res.id === id);
+            if (reservationIndex !== -1) {
+                const oldStatus = reservations[reservationIndex].status;
+                if (oldStatus === 'pending') {
+                    reservations[reservationIndex].status = newStatus;
+                    renderReservations();
+                    showMessage("Status Updated", `Reservation for ${reservations[reservationIndex].guest} has been ${newStatus}.`);
+                } else {
+                    showMessage("Action Not Allowed", "This reservation has already been finalized.");
+                }
+            }
+        }
+
+        // --- Customer Ratings Logic ---
+        function renderRatings() {
+            const container = document.getElementById('ratings-container');
+            container.innerHTML = ''; // Clear previous content
+
+            customerRatings.forEach(rating => {
+                const card = document.createElement('div');
+                card.className = "card flex items-start space-x-4";
+                const stars = '⭐'.repeat(rating.rating);
+                card.innerHTML = `
+                    <div class="flex-shrink-0 text-3xl">${stars}</div>
+                    <div class="flex-grow">
+                        <p class="text-slate-700 italic mb-2">"${rating.comment}"</p>
+                        <p class="text-sm font-semibold text-slate-500">- ${rating.user}, ${rating.date}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+        
+        // --- Photo Gallery Logic ---
+        function renderPhotoGallery() {
+            const grid = document.getElementById('photo-grid');
+            grid.innerHTML = ''; // Clear previous content
+
+            photos.forEach((photo, index) => {
+                const card = document.createElement('div');
+                card.className = "rounded-xl overflow-hidden shadow-lg border border-slate-200 relative";
+                card.innerHTML = `
+                    <img src="${photo.url}" alt="${photo.caption}" class="w-full h-48 object-cover">
+                    <div class="p-4 bg-white flex justify-between items-center">
+                        <p class="text-sm text-slate-700 font-medium">${photo.caption}</p>
+                        <div class="flex space-x-2">
+                            <button onclick="replacePhoto(${index})" class="text-blue-500 hover:text-blue-700 font-semibold text-xs">Replace</button>
+                            <button onclick="deletePhoto(${index})" class="text-red-500 hover:text-red-700 font-semibold text-xs">Delete</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function addPhoto() {
+            const photoInput = document.getElementById('photo-upload');
+            const file = photoInput.files[0];
+            
+            if (photos.length >= 4) {
+                showMessage("Limit Reached", "You can only have up to 4 photos in the gallery.");
+                return;
+            }
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const newPhoto = {
+                        url: e.target.result,
+                        caption: `Uploaded photo: ${file.name}`
+                    };
+                    photos.unshift(newPhoto); // Add to the beginning of the array
+                    renderPhotoGallery();
+                    showMessage("Photo Added", `A new photo has been added to the gallery.`);
+                }
+                reader.readAsDataURL(file);
+                photoInput.value = null; // Clear the input
+            } else {
+                showMessage("No Photo Selected", "Please select a photo to upload.");
+            }
+        }
+        
+        function deletePhoto(index) {
+            if (confirm("Are you sure you want to delete this photo?")) {
+                photos.splice(index, 1);
+                renderPhotoGallery();
+                showMessage("Photo Deleted", "The photo has been removed from the gallery.");
+            }
+        }
+
+        function replacePhoto(index) {
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*';
+            fileInput.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        photos[index].url = event.target.result;
+                        photos[index].caption = `Replaced photo: ${file.name}`;
+                        renderPhotoGallery();
+                        showMessage("Photo Replaced", "The photo has been replaced.");
+                    }
+                    reader.readAsDataURL(file);
+                }
+            };
+            fileInput.click();
+        }
+
+        // --- Event Listeners ---
+        document.getElementById('logout-btn').addEventListener('click', () => {
+             showMessage("Logged Out", "You have successfully logged out of the dashboard.");
+        });
+
+        // --- Initial Render on Page Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderResortInfo();
+            renderRoomAvailability();
+            renderStatistics();
+            renderReservations();
+            renderPhotoGallery();
+            renderRatings();
+        });
+    </script>
+</body>
+
+</html>

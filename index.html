@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourist Inn</title>
+    <!-- Use Tailwind CSS for a modern, responsive design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #9ca3af;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+
+        /* Required for the map container to have a visible size */
+        #map-container {
+            height: 400px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style for the image slider */
+        .image-slider {
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
+        }
+
+        .image-slider img {
+            scroll-snap-align: center;
+            flex-shrink: 0;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .card {
+            @apply bg-white p-6 md:p-8 mt-24 rounded-3xl shadow-xl border border-slate-200;
+        }
+
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 leading-relaxed">
+
+    <!-- Header Section -->
+    <header class="bg-blue-600 text-white py-12 px-8 rounded-b-3xl shadow-lg flex items-center justify-center relative">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold mb-2">Welcome to Tourist Inn</h1>
+            <p class="text-xl italic font-light">Your comfort, our priority</p>
+        </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="bg-blue-800 text-white p-4 text-center sticky top-0 z-50 shadow-md">
+        <div
+            class="container mx-auto flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-8">
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-8">
+                <a href="#home" class="font-bold hover:text-blue-200 transition-colors flex items-center">Home <span
+                        class="ml-2">🏠</span></a>
+                <a href="#about" class="font-bold hover:text-blue-200 transition-colors flex items-center">About Us <span
+                        class="ml-2">ℹ️</span></a>
+                <a href="#location" class="font-bold hover:text-blue-200 transition-colors flex items-center">Location
+                    <span class="ml-2">🗺️</span></a>
+                <a href="#explore" class="font-bold hover:text-blue-200 transition-colors flex items-center">Explore
+                    Inns
+                    <span class="ml-2">🏨</span></a>
+                <a href="#booking" class="font-bold hover:text-blue-200 transition-colors flex items-center">Book Now <span
+                        class="ml-2">🛎️</span></a>
+                <a href="#ratings" class="font-bold hover:text-blue-200 transition-colors flex items-center">Ratings <span
+                        class="ml-2">👍</span></a>
+                <a href="#stats" class="font-bold hover:text-blue-200 transition-colors flex items-center">Statistics <span
+                        class="ml-2">📊</span></a>
+            </div>
+            <a href="registration_from.html"
+                class="font-bold px-4 py-2 bg-blue-700 rounded-full hover:bg-blue-900 transition-colors">Sign In</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Home Section -->
+        <div class="card" id="home">
+            <h2 class="text-2xl font-bold mb-4 text-blue-800">Your Perfect Getaway Awaits ✨</h2>
+            <p class="text-slate-700 mb-4">
+                Discover a relaxing and affordable escape at Tourist Inn. Whether you're traveling for business or
+                pleasure, our comfortable rooms and prime location make us the ideal choice for your stay.
+            </p>
+
+            <!-- Image Gallery/Slider -->
+            <div class="relative w-full overflow-hidden rounded-xl shadow-lg mb-6">
+                <div id="image-slider-home" class="image-slider flex overflow-x-auto gap-4">
+                    <!-- Standard Room -->
+                    <div class="relative flex-shrink-0 w-full">
+                        <img src="https://placehold.co/800x450/333/eee?text=Standard+Room"
+                            alt="Standard room - ₱1000 per night" class="w-full h-auto rounded-lg">
+                        <div
+                            class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-white rounded-b-lg">
+                            <p class="text-xl font-bold text-shadow">Standard - ₱1000/night</p>
+                        </div>
+                    </div>
+                    <!-- Deluxe Room -->
+                    <div class="relative flex-shrink-0 w-full">
+                        <img src="https://placehold.co/800x450/666/fff?text=Deluxe+Room"
+                            alt="Deluxe room - ₱2000 per night" class="w-full h-auto rounded-lg">
+                        <div
+                            class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-white rounded-b-lg">
+                            <p class="text-xl font-bold text-shadow">Deluxe - ₱2000/night</p>
+                        </div>
+                    </div>
+                    <!-- Suite -->
+                    <div class="relative flex-shrink-0 w-full">
+                        <img src="https://placehold.co/800x450/999/333?text=Suite" alt="Suite - ₱3500 per night"
+                            class="w-full h-auto rounded-lg">
+                        <div
+                            class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-white rounded-b-lg">
+                            <p class="text-xl font-bold text-shadow">Suite - ₱3500/night</p>
+                        </div>
+                    </div>
+                    <!-- Lobby -->
+                    <div class="relative flex-shrink-0 w-full">
+                        <img src="https://placehold.co/800x450/bbb/000?text=Lobby" alt="Hotel lobby"
+                            class="w-full h-auto rounded-lg">
+                        <div
+                            class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-white rounded-b-lg">
+                            <p class="text-xl font-bold text-shadow">Lobby & Amenities</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Navigation Buttons -->
+                <div class="absolute inset-y-0 left-0 flex items-center">
+                    <button id="prev-btn-home"
+                        class="bg-blue-600 text-white p-2 rounded-full m-2 opacity-70 hover:opacity-100 transition-opacity text-xl">
+                        ◀️
+                    </button>
+                </div>
+                <div class="absolute inset-y-0 right-0 flex items-center">
+                    <button id="next-btn-home"
+                        class="bg-blue-600 text-white p-2 rounded-full m-2 opacity-70 hover:opacity-100 transition-opacity text-xl">
+                        ▶️
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4 text-center mb-6">
+                <div class="bg-blue-100 p-4 rounded-lg shadow-sm">
+                    <p class="font-bold text-blue-800">Cozy Rooms 🛌</p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded-lg shadow-sm">
+                    <p class="font-bold text-blue-800">Great Location 📍</p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded-lg shadow-sm">
+                    <p class="font-bold text-blue-800">Best Rates 💰</p>
+                </div>
+            </div>
+            <a href="#booking"
+                class="w-full inline-block py-3 bg-orange-500 text-white font-bold rounded-lg shadow-md hover:bg-orange-600 text-center transition-colors">
+                Book Your Stay Today
+            </a>
+        </div>
+
+        <!-- About Us Card -->
+        <div class="card" id="about">
+            <h2 class="text-2xl font-bold mb-4 text-blue-800">About Us ℹ️</h2>
+            <p class="text-slate-700">Tourist Inn offers cozy rooms with affordable rates. Perfect for your vacation or
+                business trip.</p>
+        </div>
+
+        <!-- Location Card -->
+        <div class="card" id="location">
+            <h2 class="text-2xl font-bold mb-4 text-blue-800">Our Location 🗺️</h2>
+            <p class="text-slate-700 mb-4">Find us on the map. The pin shows our general location on Siargao Island.</p>
+            <div id="map-container"></div>
+            <button id="find-me-btn"
+                class="w-full py-3 mt-4 bg-orange-500 text-white font-bold rounded-lg shadow-md hover:bg-orange-600 transition-colors">
+                Find My Location
+            </button>
+        </div>
+
+        <!-- New Explore Inns Card -->
+        <div class="card" id="explore">
+            <h2 class="text-2xl font-bold mb-4 text-blue-800">Explore Inns by Location 🏨</h2>
+            <p class="text-slate-700 mb-4">Discover some of the best accommodations in Dinagat Island and view their
+                available room types.</p>
+
+            <div id="inn-list" class="space-y-6">
+                <!-- Static Inn Example 1: Ocean View Inn -->
+                <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
+                    <!-- Image Slider for Ocean View Inn -->
+                    <div class="relative w-full overflow-hidden rounded-lg shadow-md mb-4">
+                        <div id="image-slider-ocean" class="image-slider flex overflow-x-auto gap-4">
+                            <img src="https://placehold.co/800x450/4169e1/ffffff?text=Ocean+View+Inn+Exterior"
+                                alt="Ocean View Inn" class="w-full h-auto rounded-lg">
+                            <img src="https://placehold.co/800x450/4169e1/ffffff?text=Ocean+View+Inn+Room+1"
+                                alt="Ocean View Inn Room" class="w-full h-auto rounded-lg">
+                            <img src="https://placehold.co/800x450/4169e1/ffffff?text=Ocean+View+Inn+Lobby"
+                                alt="Ocean View Inn Lobby" class="w-full h-auto rounded-lg">
+                        </div>
+                        <div class="absolute inset-y-0 left-0 flex items-center">
+                            <button id="prev-btn-ocean"
+                                class="bg-blue-600 text-white p-2 rounded-full m-2 opacity-70 hover:opacity-100 transition-opacity text-xl">
+                                ◀️
+                            </button>
+                        </div>
+                        <div class="absolute inset-y-0 right-0 flex items-center">
+                            <button id="next-btn-ocean"
+                                class="bg-blue-600 text-white p-2 rounded-full m-2 opacity-70 hover:opacity-100 transition-opacity text-xl">
+                                ▶️
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">Ocean View Inn</h3>
+                    <p class="text-slate-600 mb-2">A cozy inn with a fantastic view of the sea, located right on the
+                        coast of Dinagat Island.</p>
+                    <div class="flex items-center justify-between text-sm text-slate-700 mb-4">
+                        <span class="font-semibold">Rooms Available: <span class="text-blue-600">5</span></span>
+                        <span class="font-semibold">Ratings: <span class="text-yellow-500">⭐⭐⭐⭐⭐</span> (25 ratings)</span>
+                    </div>
+                    <h4 class="font-semibold text-slate-700 mb-2">Room Types:</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="bg-blue-200 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Standard
+                            Room</span>
+                        <span
+                            class="bg-blue-200 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Deluxe
+                            Room</span>
+                        <span
+                            class="bg-blue-200 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Suite</span>
+                    </div>
+                </div>
+
+                <!-- Static Inn Example 2: Mountain Breeze Lodge -->
+                <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
+                    <!-- Image Slider for Mountain Breeze Lodge -->
+                    <div class="relative w-full overflow-hidden rounded-lg shadow-md mb-4">
+                        <div id="image-slider-mountain" class="image-slider flex overflow-x-auto gap-4">
+                            <img src="https://placehold.co/800x450/228b22/ffffff?text=Mountain+Breeze+Lodge+Exterior"
+                                alt="Mountain Breeze Lodge" class="w-full h-auto rounded-lg">
+                            <img src="https://placehold.co/800x450/228b22/ffffff?text=Mountain+Breeze+Lodge+Room+1"
+                                alt="Mountain Breeze Lodge Room" class="w-full h-auto rounded-lg">
+                            <img src="https://placehold.co/800x450/228b22/ffffff?text=Mountain+Breeze+Lodge+View"
+                                alt="Mountain Breeze Lodge View" class="w-full h-auto rounded-lg">
+                        </div>
+                        <div class="absolute inset-y-0 left-0 flex items-center">
+                            <button id="prev-btn-mountain"
+                                class="bg-blue-600 text-white p-2 rounded-full m-2 opacity-70 hover:opacity-100 transition-opacity text-xl">
+                                ◀️
+                            </button>
+                        </div>
+                        <div class="absolute inset-y-0 right-0 flex items-center">
+                            <button id="next-btn-mountain"
+                                class="bg-blue-600 text-white p-2 rounded-full m-2 opacity-70 hover:opacity-100 transition-opacity text-xl">
+                                ▶️
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">Mountain Breeze Lodge</h3>
+                    <p class="text-slate-600 mb-2">Nestled in the lush hills, this lodge offers a tranquil escape with
+                        breathtaking mountain views.</p>
+                    <div class="flex items-center justify-between text-sm text-slate-700 mb-4">
+                        <span class="font-semibold">Rooms Available: <span class="text-blue-600">3</span></span>
+                        <span class="font-semibold">Ratings: <span class="text-yellow-500">⭐⭐⭐⭐</span> (18 ratings)</span>
+                    </div>
+                    <h4 class="font-semibold text-slate-700 mb-2">Room Types:</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="bg-blue-200 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Standard
+                            Room</span>
+                        <span
+                            class="bg-blue-200 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Deluxe
+                            Room</span>
+                        <span
+                            class="bg-blue-200 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Suite</span>
+                    </div>
+                </div>
+
+                <!-- Static Inn Example 3: Island Retreat Inn -->
+                <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
+                    <!-- Image Slider for Island Retreat Inn -->
+                    <div class="relative w-full overflow-hidden rounded-lg shadow-md mb-4">
+                        <div id="image-slider-island" class="image-slider flex overflow-x-auto gap-4">
+                            <img src="https://placehold.co/800x450/9932cc/ffffff?text=Island+Retreat+Inn+Exterior"
+                                alt="Island Retreat Inn" class="w-full h-auto rounded-lg">
+                            <img src="https://placehold.co/800x450/9932cc/ffffff?text=Island+Retreat+Inn+Room+1"
+                                alt="Island Retreat Inn Room" class="w-full h-auto rounded-lg">
+                            <img src="https://placehold.co/800x450/9932cc/ffffff?text=Island+Retreat+Inn+Beach+Access"
+                                alt="Island Retreat Inn Beach Access" class="w-full h-auto rounded-lg">
+                        </div>
+                        <div class="absolute inset-y-0 left-0 flex items-center">
+                            <button id="prev-btn-island"
+                                class="bg-blue-600 text-white p-2 rounded-full m-2 opacity-70 hover:opacity-100 transition-opacity text-xl">
+                                ◀️
+                            </button>
+                        </div>
+                        <div class="absolute inset-y-0 right-0 flex items-center">
+                            <button id="next-btn-island"
+                                class="bg-blue-600 text-white p-2 rounded-full m-2 opacity-70 hover:opacity-100 transition-opacity text-xl">
+                                ▶️
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">Island Retreat Inn</h3>
+                    <p class="text-slate-600 mb-2">A perfect spot for a quiet getaway, located near a secluded beach
+                        with pristine white sand.</p>
+                    <div class="flex items-center justify-between text-sm text-slate-700 mb-4">
+                        <span class="font-semibold">Rooms Available: <span class="text-blue-600">7</span></span>
+                        <span class="font-semibold">Ratings: <span class="text-yellow-500">⭐⭐⭐⭐⭐</span> (40 ratings)</span>
+                    </div>
+                    <h4 class="font-semibold text-slate-700 mb-2">Room Types:</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="bg-blue-200 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Standard
+                            Room</span>
+                        <span
+                            class="bg-blue-200 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Deluxe
+                            Room</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Booking Reservation Card -->
+        <div class="card" id="booking">
+            <h2 class="text-2xl font-bold mb-4 text-blue-800">Booking Reservation 🛎️</h2>
+            <form id="bookingForm" class="space-y-4">
+                <label for="fullName" class="block text-slate-700 font-medium">Full Name:</label>
+                <input type="text" id="fullName" required placeholder="John Doe"
+                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+
+                <label for="email" class="block text-slate-700 font-medium">Email:</label>
+                <input type="email" id="email" required placeholder="johndoe@example.com"
+                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+
+                <label for="checkin" class="block text-slate-700 font-medium">Check-in Date:</label>
+                <input type="date" id="checkin" required
+                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+
+                <label for="checkout" class="block text-slate-700 font-medium">Check-out Date:</label>
+                <input type="date" id="checkout" required
+                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+
+                <label for="innSelect" class="block text-slate-700 font-medium">Inn Name:</label>
+                <select id="innSelect" required
+                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    <option value="">-- Select an Inn --</option>
+                </select>
+
+                <label for="roomSelect" class="block text-slate-700 font-medium">Room Type:</label>
+                <select id="roomSelect" required disabled
+                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    <option value="">-- Select a Room Type --</option>
+                </select>
+
+                <label for="guests" class="block text-slate-700 font-medium">Guests:</label>
+                <input type="number" id="guests" min="1" max="15" value="1" required
+                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+
+                <!-- Real-time availability message -->
+                <div id="availability-status" class="text-center py-2 rounded-lg"></div>
+
+                <button type="submit"
+                    class="w-full py-3 bg-orange-500 text-white font-bold rounded-lg shadow-md hover:bg-orange-600 transition-colors">
+                    Reserve
+                </button>
+            </form>
+        </div>
+
+        <!-- Customer Ratings Section -->
+        <div class="card" id="ratings">
+            <h2 class="text-2xl font-bold mb-4 text-blue-800">Customer Ratings 👍</h2>
+            <p class="text-slate-700 mb-4">Share your experience and see what other guests are saying!</p>
+
+            <form id="ratingForm" class="space-y-4 mb-8">
+                <label for="rating" class="block text-slate-700 font-medium">Your Rating:</label>
+                <select id="rating" required
+                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    <option value="">-- Select a rating --</option>
+                    <option value="5">⭐⭐⭐⭐⭐ (Excellent)</option>
+                    <option value="4">⭐⭐⭐⭐ (Good)</option>
+                    <option value="3">⭐⭐⭐ (Average)</option>
+                    <option value="2">⭐⭐ (Poor)</option>
+                    <option value="1">⭐ (Terrible)</option>
+                </select>
+
+                <label for="comment" class="block text-slate-700 font-medium">Your Comment (Optional):</label>
+                <textarea id="comment" rows="4"
+                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                    placeholder="Enter your comments here..."></textarea>
+
+                <button type="submit"
+                    class="w-full py-3 bg-orange-500 text-white font-bold rounded-lg shadow-md hover:bg-orange-600 transition-colors">
+                    Submit Rating
+                </button>
+            </form>
+
+            <h3 class="text-xl font-bold mb-2 text-blue-800">All Ratings</h3>
+            <div id="ratings-container" class="space-y-4">
+                <!-- Ratings will be populated here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="card" id="stats">
+            <h2 class="text-2xl font-bold mb-4 text-blue-800">Reservation Statistics 📊</h2>
+            <p class="text-slate-700 mb-4">Monthly reservation data:</p>
+            <div id="stats-chart" class="flex items-end justify-around h-64 bg-gray-200 rounded-lg p-2 relative">
+                <!-- Monthly Stats chart will be populated here -->
+            </div>
+            <div id="stats-labels" class="flex justify-around mt-2 text-sm text-slate-600 font-medium"></div>
+
+            <hr class="my-6 border-t border-slate-300">
+
+            <h3 class="text-xl font-bold mb-4 text-blue-800">Popular Room Types</h3>
+            <p class="text-slate-700 mb-4">Reservations by room type:</p>
+            <div id="room-stats-chart" class="flex items-end justify-around h-48 bg-gray-200 rounded-lg p-2 relative">
+                <!-- Room Type Stats chart will be populated here -->
+            </div>
+            <div id="room-stats-labels" class="flex justify-around mt-2 text-sm text-slate-600 font-medium"></div>
+        </div>
+
+        <!-- Custom Modal/Message Box -->
+        <div id="message-modal"
+            class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm text-center">
+                <h3 id="modal-title" class="text-xl font-bold mb-2"></h3>
+                <p id="modal-message" class="text-slate-700 mb-6"></p>
+                <button id="modal-close-btn"
+                    class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    OK
+                </button>
+            </div>
+        </div>
+
+        <!-- Digital Receipt Modal (initially hidden) -->
+        <div id="receipt-modal"
+            class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md text-slate-800">
+                <h3 class="text-2xl font-bold mb-4 text-center text-blue-800">Digital Receipt 🧾</h3>
+                <div class="space-y-2">
+                    <p><strong>Reference Number:</strong> <span id="receipt-ref" class="font-mono text-sm"></span></p>
+                    <hr>
+                    <p><strong>Full Name:</strong> <span id="receipt-fullName"></span></p>
+                    <p><strong>Email:</strong> <span id="receipt-email"></span></p>
+                    <p><strong>Inn Name:</strong> <span id="receipt-inn"></span></p>
+                    <p><strong>Check-in:</strong> <span id="receipt-checkin"></span></p>
+                    <p><strong>Check-out:</strong> <span id="receipt-checkout"></span></p>
+                    <p><strong>Nights:</strong> <span id="receipt-nights"></span></p>
+                    <p><strong>Room Type:</strong> <span id="receipt-room"></span></p>
+                    <hr>
+                    <p class="text-xl font-bold">Total Amount: <span id="receipt-amount" class="text-blue-600"></span></p>
+                </div>
+                <div class="flex justify-center mt-6 space-x-4">
+                    <button id="print-receipt-btn"
+                        class="py-2 px-4 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">
+                        Print
+                    </button>
+                    <button id="close-receipt-btn"
+                        class="py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white text-center py-6 mt-8">
+        <p>&copy; 2023 Tourist Inn. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // --- Helper functions ---
+        const formatDate = (date) => {
+            const d = new Date(date);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+
+        const getDatesInRange = (startDate, endDate) => {
+            const date = new Date(startDate);
+            const dates = [];
+            while (date <= endDate) {
+                dates.push(new Date(date));
+                date.setDate(date.getDate() + 1);
+            }
+            return dates;
+        };
+
+        // --- Custom Message Modal Logic ---
+        const messageModal = document.getElementById('message-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const receiptModal = document.getElementById('receipt-modal');
+
+        function showMessage(title, message) {
+            modalTitle.innerText = title;
+            modalMessage.innerText = message;
+            messageModal.classList.remove('hidden');
+            messageModal.classList.add('flex');
+        }
+
+        modalCloseBtn.addEventListener('click', () => {
+            messageModal.classList.add('hidden');
+            messageModal.classList.remove('flex');
+        });
+
+        document.getElementById('close-receipt-btn').addEventListener('click', () => {
+            receiptModal.classList.remove('flex');
+            receiptModal.classList.add('hidden');
+        });
+
+        // --- Booking and "Payment" Logic (Static) ---
+        const bookingForm = document.getElementById("bookingForm");
+        const innSelect = document.getElementById("innSelect");
+        const roomSelect = document.getElementById("roomSelect");
+        const guestsInput = document.getElementById("guests");
+        const checkinInput = document.getElementById("checkin");
+        const checkoutInput = document.getElementById("checkout");
+        const availabilityStatusDiv = document.getElementById("availability-status");
+
+        // Data for inns, rooms, and their properties
+        const innsData = [{
+            name: "Ocean View Inn",
+            rooms: {
+                Standard: {
+                    count: 5,
+                    price: 1000,
+                    guests: {
+                        min: 1,
+                        max: 2
+                    }
+                },
+                Deluxe: {
+                    count: 3,
+                    price: 2000,
+                    guests: {
+                        min: 3,
+                        max: 6
+                    }
+                },
+                Suite: {
+                    count: 1,
+                    price: 3500,
+                    guests: {
+                        min: 10,
+                        max: 15
+                    }
+                }
+            }
+        }, {
+            name: "Mountain Breeze Lodge",
+            rooms: {
+                Standard: {
+                    count: 2,
+                    price: 1000,
+                    guests: {
+                        min: 1,
+                        max: 2
+                    }
+                },
+                Deluxe: {
+                    count: 1,
+                    price: 2000,
+                    guests: {
+                        min: 3,
+                        max: 6
+                    }
+                },
+            }
+        }, {
+            name: "Island Retreat Inn",
+            rooms: {
+                Standard: {
+                    count: 4,
+                    price: 1000,
+                    guests: {
+                        min: 1,
+                        max: 2
+                    }
+                },
+                Suite: {
+                    count: 2,
+                    price: 3500,
+                    guests: {
+                        min: 10,
+                        max: 15
+                    }
+                }
+            }
+        }, ];
+
+        const populateInns = () => {
+            innSelect.innerHTML = '<option value="">-- Select an Inn --</option>';
+            innsData.forEach(inn => {
+                const option = document.createElement('option');
+                option.value = inn.name;
+                option.textContent = inn.name;
+                innSelect.appendChild(option);
+            });
+        };
+
+        const updateRooms = () => {
+            roomSelect.innerHTML = '<option value="">-- Select a Room Type --</option>';
+            roomSelect.disabled = true;
+            guestsInput.value = 1;
+            guestsInput.min = 1;
+            guestsInput.max = 15;
+
+            const selectedInnName = innSelect.value;
+            if (selectedInnName) {
+                const selectedInn = innsData.find(inn => inn.name === selectedInnName);
+                if (selectedInn) {
+                    for (const [roomType, roomDetails] of Object.entries(selectedInn.rooms)) {
+                        const option = document.createElement('option');
+                        option.value = roomType;
+                        option.textContent = `${roomType} (${roomDetails.count} available) - ₱${roomDetails.price}/night`;
+                        roomSelect.appendChild(option);
+                    }
+                    roomSelect.disabled = false;
+                }
+            }
+        };
+
+        const updateGuestConstraints = () => {
+            const selectedInnName = innSelect.value;
+            const selectedRoomType = roomSelect.value;
+
+            if (selectedInnName && selectedRoomType) {
+                const selectedInn = innsData.find(inn => inn.name === selectedInnName);
+                if (selectedInn) {
+                    const roomDetails = selectedInn.rooms[selectedRoomType];
+                    if (roomDetails) {
+                        guestsInput.min = roomDetails.guests.min;
+                        guestsInput.max = roomDetails.guests.max;
+                        if (guestsInput.value < guestsInput.min) {
+                            guestsInput.value = guestsInput.min;
+                        }
+                    }
+                }
+            }
+        };
+
+        const checkAvailabilityAndDisplay = () => {
+            const checkin = checkinInput.value;
+            const checkout = checkoutInput.value;
+
+            if (!checkin || !checkout || new Date(checkin) >= new Date(checkout)) {
+                availabilityStatusDiv.innerHTML = '';
+                availabilityStatusDiv.className = '';
+                return;
+            }
+
+            availabilityStatusDiv.innerText = 'Rooms available for these dates.';
+            availabilityStatusDiv.className = 'bg-green-100 text-green-700 font-bold';
+        };
+
+        innSelect.addEventListener('change', updateRooms);
+        roomSelect.addEventListener('change', updateGuestConstraints);
+        checkinInput.addEventListener('change', checkAvailabilityAndDisplay);
+        checkoutInput.addEventListener('change', checkAvailabilityAndDisplay);
+
+        bookingForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById("fullName").value;
+            const email = document.getElementById("email").value;
+            const innName = innSelect.value;
+            const roomType = roomSelect.value;
+            const checkinDate = new Date(checkinInput.value);
+            const checkoutDate = new Date(checkoutInput.value);
+            const guests = parseInt(guestsInput.value);
+
+            if (checkoutDate <= checkinDate) {
+                showMessage("Invalid Dates", "Check-out date must be after check-in date.");
+                return;
+            }
+            const selectedInn = innsData.find(inn => inn.name === innName);
+            const roomDetails = selectedInn.rooms[roomType];
+            const nights = Math.ceil((checkoutDate.getTime() - checkinDate.getTime()) / (1000 * 3600 * 24));
+            const totalAmount = roomDetails.price * nights;
+
+            document.getElementById("receipt-ref").innerText = "SIM-REF-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+            document.getElementById("receipt-fullName").innerText = fullName;
+            document.getElementById("receipt-email").innerText = email;
+            document.getElementById("receipt-inn").innerText = innName;
+            document.getElementById("receipt-checkin").innerText = checkinDate.toLocaleDateString();
+            document.getElementById("receipt-checkout").innerText = checkoutDate.toLocaleDateString();
+            document.getElementById("receipt-nights").innerText = nights;
+            document.getElementById("receipt-room").innerText = roomType;
+            document.getElementById("receipt-amount").innerText = `₱${totalAmount.toFixed(2)}`;
+
+            receiptModal.classList.remove('hidden');
+            receiptModal.classList.add('flex');
+            bookingForm.reset();
+            updateRooms(); // Reset the room selection
+        });
+
+        // --- Customer Ratings Logic (Static) ---
+        const ratingForm = document.getElementById("ratingForm");
+
+        const staticRatings = [{
+            rating: 5,
+            comment: "Amazing place, great service and a beautiful view!",
+            user: "guest-123",
+            createdAt: new Date("2023-11-20")
+        }, {
+            rating: 4,
+            comment: "The room was clean and the staff was friendly. The bed was a little too soft for my liking.",
+            user: "guest-567",
+            createdAt: new Date("2023-11-18")
+        }, {
+            rating: 5,
+            comment: "Best value for money on the island. Highly recommended!",
+            user: "guest-901",
+            createdAt: new Date("2023-11-15")
+        }, {
+            rating: 3,
+            comment: "It was an okay stay. Nothing special, but it got the job done.",
+            user: "guest-345",
+            createdAt: new Date("2023-11-10")
+        }];
+
+        function renderStaticRatings() {
+            const ratingsContainer = document.getElementById("ratings-container");
+            ratingsContainer.innerHTML = '';
+
+            staticRatings.forEach(ratingDoc => {
+                const ratingElement = document.createElement('div');
+                ratingElement.className = "bg-gray-100 p-4 rounded-lg shadow-sm border border-gray-200";
+                const stars = '⭐'.repeat(ratingDoc.rating);
+                ratingElement.innerHTML = `
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xl text-yellow-500">${stars}</span>
+                        <span class="text-sm text-slate-500">by ${ratingDoc.user}...</span>
+                    </div>
+                    ${ratingDoc.comment ? `<p class="text-slate-700 italic">${ratingDoc.comment}</p>` : ''}
+                `;
+                ratingsContainer.appendChild(ratingElement);
+            });
+        }
+
+        ratingForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            showMessage("Thank You!", "Your rating has been submitted successfully. (Note: This is a static site, so your rating will not be saved.)");
+            ratingForm.reset();
+        });
+
+        // --- Statistics Logic (Static) ---
+        function renderStaticStatistics() {
+            const statsChart = document.getElementById("stats-chart");
+            const statsLabels = document.getElementById("stats-labels");
+            const roomStatsChart = document.getElementById("room-stats-chart");
+            const roomStatsLabels = document.getElementById("room-stats-labels");
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+            const monthlyCounts = {
+                10: 10,
+                9: 8,
+                8: 6,
+                7: 12,
+                6: 9,
+                5: 7,
+                4: 11,
+                3: 5,
+                2: 10,
+                1: 8,
+                0: 12
+            };
+            const roomCounts = {
+                'Standard': 35,
+                'Deluxe': 20,
+                'Suite': 15
+            };
+
+            statsChart.innerHTML = '';
+            statsLabels.innerHTML = '';
+            roomStatsChart.innerHTML = '';
+            roomStatsLabels.innerHTML = '';
+
+            // Monthly Stats Chart
+            const maxMonthlyCount = Math.max(...Object.values(monthlyCounts));
+            for (let i = 0; i < 12; i++) {
+                const count = monthlyCounts[i] || 0;
+                const barHeight = (count / (maxMonthlyCount || 1)) * 100;
+                const bar = document.createElement('div');
+                bar.className = "flex flex-col items-center justify-end w-1/12 h-full p-1 group";
+                bar.innerHTML = `
+                    <span class="text-xs font-bold text-blue-800 mb-1 opacity-0 group-hover:opacity-100 transition-opacity">${count}</span>
+                    <div class="w-full bg-blue-600 rounded-lg transition-transform duration-300 hover:scale-y-110" style="height: ${barHeight}%;"></div>
+                `;
+                statsChart.appendChild(bar);
+                const label = document.createElement('div');
+                label.className = "w-1/12 text-center text-xs";
+                label.innerText = months[i];
+                statsLabels.appendChild(label);
+            }
+
+            // Room Type Stats Chart
+            const maxRoomCount = Math.max(...Object.values(roomCounts));
+            const roomTypes = ['Standard', 'Deluxe', 'Suite'];
+            roomTypes.forEach(roomType => {
+                const count = roomCounts[roomType] || 0;
+                const barHeight = (count / (maxRoomCount || 1)) * 100;
+                const bar = document.createElement('div');
+                bar.className = "flex flex-col items-center justify-end w-1/3 h-full p-1 group";
+                bar.innerHTML = `
+                    <span class="text-sm font-bold text-blue-800 mb-1 opacity-0 group-hover:opacity-100 transition-opacity">${count}</span>
+                    <div class="w-full bg-orange-500 rounded-lg transition-transform duration-300 hover:scale-y-110" style="height: ${barHeight}%;"></div>
+                `;
+                roomStatsChart.appendChild(bar);
+                const label = document.createElement('div');
+                label.className = "w-1/3 text-center text-xs font-bold mt-2";
+                label.innerText = roomType;
+                roomStatsLabels.appendChild(label);
+            });
+        }
+
+        // --- Leaflet.js CSS for the map ---
+        const leafletCSS = document.createElement('link');
+        leafletCSS.rel = 'stylesheet';
+        leafletCSS.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        leafletCSS.integrity = 'sha2-A_xI9uAPQd3o8s/w2yC3Q2O5P69Ld5b5aB2z0S8u4o3i';
+        leafletCSS.crossOrigin = '';
+        document.head.appendChild(leafletCSS);
+
+        // --- Leaflet.js Library ---
+        const leafletJS = document.createElement('script');
+        leafletJS.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+        leafletJS.integrity = 'sha2-A_xI9uAPQd3o8s/w2yC3Q2O5P69Ld5b5aB2z0S8u4o3i';
+        leafletJS.crossOrigin = '';
+        document.head.appendChild(leafletJS);
+
+        // --- Map and Geolocation Logic ---
+        let map;
+        let marker;
+
+        function initializeMap() {
+            if (typeof L === 'undefined') {
+                setTimeout(initializeMap, 100);
+                return;
+            }
+            if (map) {
+                map.remove();
+            }
+            const siargaoCoords = [9.85, 126.05];
+            map = L.map('map-container').setView(siargaoCoords, 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            marker = L.marker(siargaoCoords).addTo(map)
+                .bindPopup("<b>Tourist Inn</b><br>Siargao Island, Surigao del Norte").openPopup();
+            document.getElementById('find-me-btn').addEventListener('click', () => {
+                if ("geolocation" in navigator) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const userCoords = [position.coords.latitude, position.coords.longitude];
+                            map.setView(userCoords, 13);
+                            marker.setLatLng(userCoords).bindPopup("<b>Your Location</b>").openPopup();
+                        },
+                        (error) => {
+                            showMessage("Geolocation Error", "Unable to retrieve your location. " + error.message);
+                        }
+                    );
+                } else {
+                    showMessage("Geolocation Not Supported", "Your browser does not support geolocation.");
+                }
+            });
+        }
+
+        // --- Image Slider Logic (Self-contained) ---
+        function initializeImageSliders() {
+            // A simple JavaScript object to map each slider's ID to its button IDs.
+            const sliders = [{
+                id: 'image-slider-home',
+                prev: 'prev-btn-home',
+                next: 'next-btn-home'
+            }, {
+                id: 'image-slider-ocean',
+                prev: 'prev-btn-ocean',
+                next: 'next-btn-ocean'
+            }, {
+                id: 'image-slider-mountain',
+                prev: 'prev-btn-mountain',
+                next: 'next-btn-mountain'
+            }, {
+                id: 'image-slider-island',
+                prev: 'prev-btn-island',
+                next: 'next-btn-island'
+            }, ];
+
+            sliders.forEach(sliderInfo => {
+                const slider = document.getElementById(sliderInfo.id);
+                const prevBtn = document.getElementById(sliderInfo.prev);
+                const nextBtn = document.getElementById(sliderInfo.next);
+
+                if (slider && prevBtn && nextBtn) {
+                    // Calculate the scroll step based on the width of a single image and the gap.
+                    // This ensures smooth, image-by-image scrolling.
+                    const scrollStep = slider.offsetWidth + 16; // 16px for the gap between images
+
+                    prevBtn.addEventListener('click', () => {
+                        slider.scrollBy({
+                            left: -scrollStep,
+                            behavior: 'smooth'
+                        });
+                    });
+
+                    nextBtn.addEventListener('click', () => {
+                        slider.scrollBy({
+                            left: scrollStep,
+                            behavior: 'smooth'
+                        });
+                    });
+                }
+            });
+        }
+
+        // --- Combined Init Function ---
+        window.onload = function() {
+            populateInns();
+            initializeMap();
+            renderStaticRatings();
+            renderStaticStatistics();
+            initializeImageSliders();
+        };
+    </script>
+</body>
+
+</html>

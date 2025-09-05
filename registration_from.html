@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .form-container {
+            max-width: 600px;
+        }
+        input, select {
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            width: 100%;
+            border: 1px solid #d1d5db;
+        }
+        button {
+            transition: background-color 0.3s ease;
+        }
+        /* Custom styles for password field and icon */
+        .password-container {
+            position: relative;
+        }
+        .password-container input {
+            padding-right: 2.5rem; /* Make space for the icon */
+        }
+        .toggle-password {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+<div class="form-container bg-white p-8 rounded-2xl shadow-xl w-full">
+    <!-- Registration Section -->
+    <div id="registration-section">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-gray-800">Create Your Account</h1>
+            <p class="text-gray-500 mt-2">Choose your role and get started.</p>
+        </div>
+
+        <!-- Role Toggle -->
+        <div class="flex justify-center mb-8">
+            <button id="user-btn-reg" onclick="switchRole('user', 'reg')" class="px-6 py-2 rounded-l-full font-bold transition-colors duration-300 bg-blue-600 text-white shadow-md">
+                User
+            </button>
+            <button id="manager-btn-reg" onclick="switchRole('manager', 'reg')" class="px-6 py-2 rounded-r-full font-bold transition-colors duration-300 bg-gray-200 text-gray-700">
+                Manager
+            </button>
+        </div>
+
+        <form id="registrationForm" onsubmit="handleRegistration(event)">
+            <!-- User Form Section -->
+            <div id="user-form-section">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">User Registration</h2>
+                <div class="mb-6">
+                    <label for="fullName" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="John Doe" required class="px-4 py-3">
+                </div>
+                <div class="mb-6">
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                    <input type="text" id="address" name="address" placeholder="123 Main St, Anytown" required class="px-4 py-3">
+                </div>
+                <div class="mb-6">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="john.doe@example.com" required class="px-4 py-3">
+                </div>
+                <div class="mb-6">
+                    <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                    <input type="text" id="username" name="username" placeholder="johndoe123" required class="px-4 py-3">
+                </div>
+                <div class="mb-6">
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" required class="px-4 py-3">
+                        <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('password')"></i>
+                    </div>
+                </div>
+                <div class="mb-8">
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                    <div class="password-container">
+                        <input type="password" id="confirmPassword" name="confirmPassword" required class="px-4 py-3">
+                        <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('confirmPassword')"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manager Form Section -->
+            <div id="manager-form-section" class="hidden">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Manager Registration</h2>
+                <div class="mb-6">
+                    <label for="managerName" class="block text-sm font-medium text-gray-700 mb-2">Manager Name</label>
+                    <input type="text" id="managerName" name="managerName" placeholder="Jane Doe" required class="px-4 py-3">
+                </div>
+                <div class="mb-6">
+                    <label for="managerAddress" class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                    <input type="text" id="managerAddress" name="managerAddress" placeholder="456 Other Rd, Otherville" required class="px-4 py-3">
+                </div>
+                <div class="mb-6">
+                    <label for="managerEmail" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <input type="email" id="managerEmail" name="managerEmail" placeholder="jane.doe@example.com" required class="px-4 py-3">
+                </div>
+                <div class="mb-6">
+                    <label for="managerPassword" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="managerPassword" name="managerPassword" required class="px-4 py-3">
+                        <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('managerPassword')"></i>
+                    </div>
+                </div>
+                <div class="mb-8">
+                    <label for="managerConfirmPassword" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                    <div class="password-container">
+                        <input type="password" id="managerConfirmPassword" name="managerConfirmPassword" required class="px-4 py-3">
+                        <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('managerConfirmPassword')"></i>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label for="proof" class="block text-sm font-medium text-gray-700 mb-2">Proof (e.g., photo of business card)</label>
+                    <input type="file" id="proof" name="proof" accept="image/*" required class="px-4 py-3">
+                </div>
+                <div class="mb-6">
+                    <label for="innName" class="block text-sm font-medium text-gray-700 mb-2">Inn/Resort Name</label>
+                    <input type="text" id="innName" name="innName" placeholder="The Cozy Corner Inn" required class="px-4 py-3">
+                </div>
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Room Classifications</h2>
+                    <div id="room-class-container">
+                        <!-- Dynamic room class inputs will be added here -->
+                    </div>
+                    <button type="button" onclick="addRoomClass()" class="mt-4 w-full text-center bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-xl">
+                        Add Room Class
+                    </button>
+                </div>
+            </div>
+            
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg mt-8">
+                Register
+            </button>
+        </form>
+    </div>
+
+    <!-- Login Section -->
+    <div id="login-section" class="hidden">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-gray-800">Log In to Your Account</h1>
+            <p class="text-gray-500 mt-2">Welcome back! Please enter your credentials.</p>
+        </div>
+        
+        <!-- Role Toggle for Login -->
+        <div class="flex justify-center mb-8">
+            <button id="user-btn-login" onclick="switchRole('user', 'login')" class="px-6 py-2 rounded-l-full font-bold transition-colors duration-300 bg-blue-600 text-white shadow-md">
+                User
+            </button>
+            <button id="manager-btn-login" onclick="switchRole('manager', 'login')" class="px-6 py-2 font-bold transition-colors duration-300 bg-gray-200 text-gray-700">
+                Manager
+            </button>
+            <button id="admin-btn-login" onclick="switchRole('admin', 'login')" class="px-6 py-2 rounded-r-full font-bold transition-colors duration-300 bg-gray-200 text-gray-700">
+                Admin
+            </button>
+        </div>
+
+        <!-- User Login Form Section -->
+        <div id="user-login-section">
+            <form onsubmit="handleLogin(event, 'user')">
+                <div class="mb-6">
+                    <label for="userLoginEmail" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <input type="email" id="userLoginEmail" name="userLoginEmail" placeholder="user@example.com" required class="px-4 py-3">
+                </div>
+                <div class="mb-8">
+                    <label for="userLoginPassword" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="userLoginPassword" name="userLoginPassword" required class="px-4 py-3">
+                        <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('userLoginPassword')"></i>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg">
+                    Log In as User
+                </button>
+            </form>
+        </div>
+
+        <!-- Manager Login Form Section -->
+        <div id="manager-login-section" class="hidden">
+            <form onsubmit="handleLogin(event, 'manager')">
+                <div class="mb-6">
+                    <label for="managerLoginEmail" class="block text-sm font-medium text-gray-700 mb-2">Manager Email</label>
+                    <input type="email" id="managerLoginEmail" name="managerLoginEmail" placeholder="manager@example.com" required class="px-4 py-3">
+                </div>
+                <div class="mb-8">
+                    <label for="managerLoginPassword" class="block text-sm font-medium text-gray-700 mb-2">Manager Password</label>
+                    <div class="password-container">
+                        <input type="password" id="managerLoginPassword" name="managerLoginPassword" required class="px-4 py-3">
+                        <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('managerLoginPassword')"></i>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg">
+                    Log In as Manager
+                </button>
+            </form>
+        </div>
+
+        <!-- Admin Login Form Section -->
+        <div id="admin-login-section" class="hidden">
+            <form onsubmit="handleLogin(event, 'admin')">
+                <div class="mb-6">
+                    <label for="adminLoginEmail" class="block text-sm font-medium text-gray-700 mb-2">Admin Email</label>
+                    <input type="email" id="adminLoginEmail" name="adminLoginEmail" placeholder="admin@example.com" required class="px-4 py-3">
+                </div>
+                <div class="mb-8">
+                    <label for="adminLoginPassword" class="block text-sm font-medium text-gray-700 mb-2">Admin Password</label>
+                    <div class="password-container">
+                        <input type="password" id="adminLoginPassword" name="adminLoginPassword" required class="px-4 py-3">
+                        <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('adminLoginPassword')"></i>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg">
+                    Log In as Admin
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Universal Message Box -->
+    <div id="message-box" class="mt-6 text-center text-sm font-medium hidden">
+        <p id="message-text"></p>
+    </div>
+    
+    <!-- Link to toggle forms -->
+    <div class="mt-6 text-center text-sm">
+        <span id="toggle-form-text">Already have an account?</span>
+        <button id="toggle-form-btn" onclick="switchForm()" class="text-blue-600 font-bold hover:underline">
+            Log In
+        </button>
+    </div>
+
+</div>
+
+<script>
+    let roomClassCounter = 0;
+
+    // This function toggles the visibility of the password field
+    function togglePasswordVisibility(passwordId) {
+        const passwordInput = document.getElementById(passwordId);
+        const icon = passwordInput.nextElementSibling;
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    function switchRole(role, formType) {
+        // Handle registration role toggle
+        if (formType === 'reg') {
+            const userForm = document.getElementById('user-form-section');
+            const managerForm = document.getElementById('manager-form-section');
+            const userBtn = document.getElementById('user-btn-reg');
+            const managerBtn = document.getElementById('manager-btn-reg');
+
+            userForm.classList.toggle('hidden', role !== 'user');
+            managerForm.classList.toggle('hidden', role !== 'manager');
+            
+            userBtn.classList.toggle('bg-blue-600', role === 'user');
+            userBtn.classList.toggle('text-white', role === 'user');
+            userBtn.classList.toggle('bg-gray-200', role !== 'user');
+            userBtn.classList.toggle('text-gray-700', role !== 'user');
+            userBtn.classList.toggle('shadow-md', role === 'user');
+
+            managerBtn.classList.toggle('bg-blue-600', role === 'manager');
+            managerBtn.classList.toggle('text-white', role === 'manager');
+            managerBtn.classList.toggle('bg-gray-200', role !== 'manager');
+            managerBtn.classList.toggle('text-gray-700', role !== 'manager');
+            managerBtn.classList.toggle('shadow-md', role === 'manager');
+        }
+        
+        // Handle login role toggle
+        if (formType === 'login') {
+            const userForm = document.getElementById('user-login-section');
+            const managerForm = document.getElementById('manager-login-section');
+            const adminForm = document.getElementById('admin-login-section');
+            const userBtn = document.getElementById('user-btn-login');
+            const managerBtn = document.getElementById('manager-btn-login');
+            const adminBtn = document.getElementById('admin-btn-login');
+
+            // Hide all forms first
+            userForm.classList.add('hidden');
+            managerForm.classList.add('hidden');
+            adminForm.classList.add('hidden');
+
+            // Then show the correct one
+            if (role === 'user') {
+                userForm.classList.remove('hidden');
+            } else if (role === 'manager') {
+                managerForm.classList.remove('hidden');
+            } else if (role === 'admin') {
+                adminForm.classList.remove('hidden');
+            }
+            
+            // Update button styles
+            const allLoginBtns = [userBtn, managerBtn, adminBtn];
+            allLoginBtns.forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            const selectedBtn = document.getElementById(`${role}-btn-login`);
+            selectedBtn.classList.remove('bg-gray-200', 'text-gray-700');
+            selectedBtn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+        }
+    }
+
+    function switchForm() {
+        const registrationSection = document.getElementById('registration-section');
+        const loginSection = document.getElementById('login-section');
+        const toggleBtn = document.getElementById('toggle-form-btn');
+        const toggleText = document.getElementById('toggle-form-text');
+
+        if (registrationSection.classList.contains('hidden')) {
+            // Currently on login form, switch to registration
+            registrationSection.classList.remove('hidden');
+            loginSection.classList.add('hidden');
+            toggleText.textContent = 'Already have an account?';
+            toggleBtn.textContent = 'Log In';
+            switchRole('user', 'reg'); // Reset role to user when switching to registration
+        } else {
+            // Currently on registration form, switch to login
+            registrationSection.classList.add('hidden');
+            loginSection.classList.remove('hidden');
+            toggleText.textContent = 'Don\'t have an account?';
+            toggleBtn.textContent = 'Sign Up';
+            switchRole('user', 'login'); // Reset role to user and show user form when switching to login
+        }
+    }
+
+    function addRoomClass() {
+        const container = document.getElementById('room-class-container');
+        const newRoomClassDiv = document.createElement('div');
+        newRoomClassDiv.classList.add('flex', 'space-x-4', 'mb-4', 'items-end');
+        newRoomClassDiv.innerHTML = `
+            <div class="flex-1">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Room Class Name</label>
+                <input type="text" name="roomClass${roomClassCounter}" placeholder="e.g., Standard, Deluxe" required class="px-4 py-3">
+            </div>
+            <div class="flex-1">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Total Rooms</label>
+                <input type="number" name="totalRooms${roomClassCounter}" placeholder="e.g., 10" min="1" required class="px-4 py-3">
+            </div>
+            <button type="button" onclick="this.parentNode.remove()" class="bg-red-500 hover:bg-red-600 text-white font-bold p-2 rounded-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 112 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        `;
+        container.appendChild(newRoomClassDiv);
+        roomClassCounter++;
+    }
+
+    function handleRegistration(event) {
+        event.preventDefault();
+        console.log('Registration form submission triggered.');
+        showMessage('Registration successful! Please log in to continue.', 'text-green-600');
+        setTimeout(() => switchForm(), 1500);
+    }
+
+    function handleLogin(event, role) {
+        event.preventDefault();
+        console.log(`${role} login form submission triggered.`);
+
+        let email, password, redirectUrl;
+
+        // Use a switch to handle different login roles
+        switch (role) {
+            case 'user':
+                email = document.getElementById('userLoginEmail').value;
+                password = document.getElementById('userLoginPassword').value;
+                redirectUrl = 'index.html';
+                break;
+            case 'manager':
+                email = document.getElementById('managerLoginEmail').value;
+                password = document.getElementById('managerLoginPassword').value;
+                redirectUrl = 'resort_manager_dashboard.html';
+                break;
+            case 'admin':
+                email = document.getElementById('adminLoginEmail').value;
+                password = document.getElementById('adminLoginPassword').value;
+                redirectUrl = 'dashboard.html';
+                break;
+            default:
+                showMessage("An error occurred. Please try again.", 'text-red-600');
+                return;
+        }
+
+        // Simple mock authentication
+        if ((role === 'user' && email === 'user@example.com' && password === 'password123') ||
+            (role === 'manager' && email === 'manager@example.com' && password === 'password123') ||
+            (role === 'admin' && email === 'admin@example.com' && password === 'password123')) {
+            showMessage(`Login successful as a ${role}! Redirecting...`, 'text-green-600');
+            setTimeout(() => {
+                window.location.href = redirectUrl;
+            }, 1500);
+        } else {
+            showMessage("Login failed. Please check your credentials.", 'text-red-600');
+        }
+    }
+
+    function showMessage(text, colorClass) {
+        const messageBox = document.getElementById('message-box');
+        const messageText = document.getElementById('message-text');
+        messageText.textContent = text;
+        messageBox.classList.remove('hidden', 'text-green-600', 'text-red-600', 'text-gray-500');
+        messageBox.classList.add(colorClass);
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        addRoomClass();
+    });
+</script>
+
+</body>
+</html>
