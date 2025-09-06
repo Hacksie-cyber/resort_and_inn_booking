@@ -12,11 +12,11 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f1f5f9;
+            background-color: #f8fafc;
         }
 
         .card {
-            @apply bg-white p-6 rounded-2xl shadow-lg border border-slate-200 transition-transform hover:scale-[1.01] duration-200;
+            @apply bg-white p-6 rounded-2xl shadow-xl border border-slate-200 transition-transform hover:scale-[1.01] duration-200;
         }
 
         .action-btn {
@@ -24,7 +24,7 @@
         }
 
         .status-pending {
-            @apply bg-orange-100 text-orange-800;
+            @apply bg-amber-100 text-amber-800;
         }
 
         .status-approved {
@@ -41,25 +41,25 @@
     </style>
 </head>
 
-<body class="bg-gray-100 text-slate-800">
+<body class="bg-slate-50 text-slate-800">
 
     <!-- Header & Navigation -->
-    <header class="bg-blue-800 text-white p-6 shadow-xl sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-3xl font-bold">Manager Dashboard</h1>
-            <nav class="space-x-4 flex items-center">
+    <header class="bg-blue-800 text-white p-4 md:p-6 shadow-xl sticky top-0 z-50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <h1 class="text-2xl md:text-3xl font-bold mb-2 md:mb-0">Manager Dashboard</h1>
+            <nav class="flex flex-wrap justify-center md:space-x-4 md:flex-row space-x-2 md:space-x-0 items-center">
                 <a href="#resort-info" class="nav-link">Information</a>
                 <a href="#availability" class="nav-link">Rooms</a>
                 <a href="#statistics" class="nav-link">Statistics</a>
                 <a href="#reservations" class="nav-link">Reservations</a>
                 <a href="#photo-gallery" class="nav-link">Photos</a>
                 <a href="#ratings" class="nav-link">Ratings</a>
-                <div class="flex items-center space-x-2 bg-blue-700 py-1 px-3 rounded-full ml-4">
+                <div class="flex items-center space-x-2 ml-4 mt-2 md:mt-0">
                     <span class="text-sm font-medium">Welcome, Alex!</span>
                     <span class="text-xs font-light opacity-80">(Manager)</span>
                 </div>
                 <button id="logout-btn"
-                    class="bg-orange-500 text-white font-bold py-1 px-4 rounded-full hover:bg-orange-600 transition-colors">Logout</button>
+                    class="border border-white text-white font-bold py-1 px-4 rounded-full hover:bg-white hover:text-blue-800 transition-colors ml-4 mt-2 md:mt-0">Logout</button>
             </nav>
         </div>
     </header>
@@ -78,7 +78,7 @@
         <!-- Statistics Section -->
         <section id="statistics" class="card">
             <h2 class="text-2xl font-bold text-blue-800 mb-6">Resort Statistics</h2>
-            <div id="statistics-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div id="statistics-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Statistics cards will be populated by JS -->
             </div>
         </section>
@@ -94,18 +94,18 @@
         <!-- Reservation Management Section -->
         <section id="reservations" class="card">
             <h2 class="text-2xl font-bold text-blue-800 mb-6">Reservation Management</h2>
-            <div class="overflow-x-auto rounded-lg shadow-inner">
+            <div class="overflow-x-auto rounded-xl shadow-inner border border-slate-200">
                 <table class="w-full text-left table-auto">
-                    <thead>
-                        <tr class="bg-slate-200 text-slate-600 uppercase text-sm leading-normal">
-                            <th class="py-3 px-6 text-left">Guest Name</th>
-                            <th class="py-3 px-6 text-left">Room</th>
-                            <th class="py-3 px-6 text-left">Dates</th>
-                            <th class="py-3 px-6 text-center">Status</th>
-                            <th class="py-3 px-6 text-center">Actions</th>
+                    <thead class="bg-slate-100 text-slate-600 uppercase text-xs md:text-sm">
+                        <tr>
+                            <th class="py-3 px-4 md:px-6 text-left">Guest Name</th>
+                            <th class="py-3 px-4 md:px-6 text-left">Room</th>
+                            <th class="py-3 px-4 md:px-6 text-left">Dates</th>
+                            <th class="py-3 px-4 md:px-6 text-center">Status</th>
+                            <th class="py-3 px-4 md:px-6 text-center">Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="reservations-table-body" class="text-sm font-light">
+                    <tbody id="reservations-table-body" class="text-sm md:text-base font-light divide-y divide-slate-200">
                         <!-- Reservation rows will be populated by JS -->
                     </tbody>
                 </table>
@@ -367,13 +367,13 @@
                         break;
                 }
 
-                row.className = "border-b border-slate-200 hover:bg-slate-50";
+                row.className = "hover:bg-slate-50 transition-colors duration-150";
                 row.innerHTML = `
-                    <td class="py-4 px-6">${res.guest}</td>
-                    <td class="py-4 px-6">${res.room}</td>
-                    <td class="py-4 px-6">${res.dates}</td>
-                    <td class="py-4 px-6 text-center"><span class="py-1 px-3 rounded-full text-xs font-bold ${statusClass}">${res.status.toUpperCase()}</span></td>
-                    <td class="py-4 px-6 text-center whitespace-nowrap">${actionsHtml}</td>
+                    <td class="py-4 px-4 md:px-6">${res.guest}</td>
+                    <td class="py-4 px-4 md:px-6">${res.room}</td>
+                    <td class="py-4 px-4 md:px-6">${res.dates}</td>
+                    <td class="py-4 px-4 md:px-6 text-center"><span class="py-1 px-3 rounded-full text-xs font-bold ${statusClass}">${res.status.toUpperCase()}</span></td>
+                    <td class="py-4 px-4 md:px-6 text-center whitespace-nowrap">${actionsHtml}</td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -400,7 +400,7 @@
 
             customerRatings.forEach(rating => {
                 const card = document.createElement('div');
-                card.className = "card flex items-start space-x-4";
+                card.className = "card flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-4";
                 const stars = '⭐'.repeat(rating.rating);
                 card.innerHTML = `
                     <div class="flex-shrink-0 text-3xl">${stars}</div>
@@ -423,7 +423,7 @@
                 card.className = "rounded-xl overflow-hidden shadow-lg border border-slate-200 relative";
                 card.innerHTML = `
                     <img src="${photo.url}" alt="${photo.caption}" class="w-full h-48 object-cover">
-                    <div class="p-4 bg-white flex justify-between items-center">
+                    <div class="p-4 bg-white flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
                         <p class="text-sm text-slate-700 font-medium">${photo.caption}</p>
                         <div class="flex space-x-2">
                             <button onclick="replacePhoto(${index})" class="text-blue-500 hover:text-blue-700 font-semibold text-xs">Replace</button>
