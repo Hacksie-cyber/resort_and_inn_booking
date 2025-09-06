@@ -62,7 +62,7 @@
     <main class="container mx-auto p-4 md:p-8 space-y-8 max-w-6xl">
 
         <!-- Overall Summary -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div class="card bg-blue-100 text-blue-800 border-blue-300 text-center">
                 <p class="text-sm font-semibold mb-2">Total Inns Managed</p>
                 <div id="total-inns" class="text-5xl font-extrabold"></div>
@@ -74,6 +74,10 @@
             <div class="card bg-cyan-100 text-cyan-800 border-cyan-300 text-center">
                 <p class="text-sm font-semibold mb-2">Total Managers</p>
                 <div id="total-managers" class="text-5xl font-extrabold"></div>
+            </div>
+            <div class="card bg-indigo-100 text-indigo-800 border-indigo-300 text-center">
+                <p class="text-sm font-semibold mb-2">Total Users</p>
+                <div id="total-users" class="text-5xl font-extrabold"></div>
             </div>
         </section>
 
@@ -138,88 +142,70 @@
             messageModal.classList.remove('flex');
         });
 
-        // --- Mock Data ---
-        let inns = [{
-            id: '1',
-            name: 'Serenity Point Inn',
-            location: 'Boracay',
-            stats: {
-                totalRevenue: '₱250,000',
-                monthlyBookings: 45,
-                occupancyRate: '75%',
-                roomsAvailable: 22,
-                totalRooms: 35,
-                trends: 'Trending Up'
-            },
-            ratings: [{
-                user: 'John D.',
-                rating: 5,
-                comment: 'Wonderful experience!',
-                date: '2023-11-20'
-            }, {
-                user: 'Maria S.',
-                rating: 4,
-                comment: 'Great location and good value.',
-                date: '2023-11-18'
-            }],
-        }, {
-            id: '2',
-            name: 'Oceanview Retreat',
-            location: 'El Nido',
-            stats: {
-                totalRevenue: '₱420,000',
-                monthlyBookings: 60,
-                occupancyRate: '88%',
-                roomsAvailable: 15,
-                totalRooms: 40,
-                trends: 'Trending Down'
-            },
-            ratings: [{
-                user: 'Emily W.',
-                rating: 5,
-                comment: 'Breathtaking views and amazing staff.',
-                date: '2023-11-22'
-            }, {
-                user: 'David B.',
-                rating: 5,
-                comment: 'The best vacation ever!',
-                date: '2023-11-21'
-            }],
-        }];
+        // --- Data Generation Functions ---
+        const innNames = ['Serenity Point Inn', 'Oceanview Retreat', 'Pinecrest Lodge', 'Lakeside Cabins'];
+        const innLocations = ['Boracay', 'El Nido', 'Baguio', 'Tagaytay'];
+        const userNames = ['Alex Johnson', 'Sarah Lee', 'Michael Chen', 'David Wilson', 'Jane Foster', 'Robert King', 'Lisa Evans', 'Juan Dela Cruz', 'Maria Santos'];
+        const userComments = ['Wonderful experience!', 'Great location and good value.', 'Breathtaking views and amazing staff.', 'The best vacation ever!', 'Highly recommend this place.', 'Clean and cozy.', 'Will definitely come back.'];
+        const trendTypes = ['Trending Up', 'Trending Down', 'Stable'];
+        const users = [];
+        const inns = [];
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateMockData() {
+            // Generate users
+            users.length = 0; // Clear the array
+            const totalUsers = getRandomInt(10, 50);
+            for (let i = 0; i < totalUsers; i++) {
+                users.push({
+                    id: `u${i + 1}`,
+                    name: userNames[getRandomInt(0, userNames.length - 1)],
+                    role: 'manager',
+                    innId: null,
+                    status: i < 2 ? 'approved' : 'pending' // Just for a bit of variety
+                });
+            }
+
+            // Generate inns
+            inns.length = 0; // Clear the array
+            const totalInns = getRandomInt(2, 5);
+            for (let i = 0; i < totalInns; i++) {
+                const totalRooms = getRandomInt(20, 60);
+                const roomsAvailable = getRandomInt(5, totalRooms - 5);
+                const occupancyRate = ((totalRooms - roomsAvailable) / totalRooms * 100).toFixed(0) + '%';
+                const totalRevenue = `₱${(getRandomInt(10, 50) * 10000).toLocaleString('en-US')}`;
+                
+                // Assign a manager to the approved inns
+                const manager = users.find(u => u.status === 'approved' && !u.innId);
+                if (manager) {
+                    manager.innId = `inn${i}`;
+                }
+
+                inns.push({
+                    id: `inn${i}`,
+                    name: innNames[getRandomInt(0, innNames.length - 1)],
+                    location: innLocations[getRandomInt(0, innLocations.length - 1)],
+                    stats: {
+                        totalRevenue: totalRevenue,
+                        monthlyBookings: getRandomInt(20, 80),
+                        occupancyRate: occupancyRate,
+                        roomsAvailable: roomsAvailable,
+                        totalRooms: totalRooms,
+                        trends: trendTypes[getRandomInt(0, trendTypes.length - 1)]
+                    },
+                    ratings: Array.from({ length: getRandomInt(1, 3) }, () => ({
+                        user: userNames[getRandomInt(0, userNames.length - 1)],
+                        rating: getRandomInt(3, 5),
+                        comment: userComments[getRandomInt(0, userComments.length - 1)],
+                        date: new Date().toISOString().slice(0, 10)
+                    }))
+                });
+            }
+        }
         
-        let users = [{
-            id: 'u1',
-            name: 'Alex Johnson',
-            role: 'manager',
-            innId: '1',
-            status: 'approved'
-        }, {
-            id: 'u2',
-            name: 'Sarah Lee',
-            role: 'manager',
-            innId: '2',
-            status: 'approved'
-        }, {
-            id: 'u3',
-            name: 'Michael Chen',
-            role: 'manager',
-            innId: null,
-            status: 'pending'
-        }, {
-            id: 'u4',
-            name: 'David Wilson',
-            role: 'manager',
-            innId: null,
-            status: 'pending'
-        }, {
-            id: 'u5',
-            name: 'Jane Foster',
-            role: 'manager',
-            innId: '1',
-            status: 'canceled'
-        }];
-
-
         // --- Render functions ---
         function renderSummary() {
             document.getElementById('total-inns').innerText = inns.length;
@@ -227,6 +213,7 @@
             document.getElementById('total-rooms').innerText = totalRooms;
             const totalManagers = users.filter(user => user.role === 'manager').length;
             document.getElementById('total-managers').innerText = totalManagers;
+            document.getElementById('total-users').innerText = users.length;
         }
 
         const slideTimers = {};
@@ -284,7 +271,7 @@
                 }, {
                     title: 'Trend',
                     value: inn.stats.trends,
-                    color: inn.stats.trends === 'Trending Up' ? 'text-emerald-600' : 'text-rose-600'
+                    color: inn.stats.trends === 'Trending Up' ? 'text-emerald-600' : (inn.stats.trends === 'Trending Down' ? 'text-rose-600' : 'text-slate-600')
                 }];
                 
                 const sliderHtml = `
@@ -419,6 +406,7 @@
 
         // --- Initial Render on Page Load ---
         document.addEventListener('DOMContentLoaded', () => {
+            generateMockData();
             renderSummary();
             renderInnList();
             renderUserTable();
