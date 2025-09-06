@@ -41,37 +41,37 @@
     </style>
 </head>
 
-<body class="bg-gray-100 text-slate-800">
+<body class="bg-slate-50 text-slate-800">
 
     <!-- Header & Navigation -->
-    <header class="bg-purple-800 text-white p-6 shadow-xl sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-3xl font-bold">Administrator Dashboard</h1>
-            <nav class="space-x-4 flex items-center">
+    <header class="bg-blue-900 text-white p-6 shadow-xl sticky top-0 z-50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <h1 class="text-2xl md:text-3xl font-bold mb-2 md:mb-0">Administrator Dashboard</h1>
+            <nav class="flex flex-wrap justify-center md:space-x-4 md:flex-row space-x-2 md:space-x-0 items-center">
                 <a href="#inn-stats" class="nav-link">Inn Stats</a>
                 <a href="#user-management" class="nav-link">Users</a>
-                <div class="flex items-center space-x-2 bg-purple-700 py-1 px-3 rounded-full ml-4">
+                <div class="flex items-center space-x-2 ml-4 mt-2 md:mt-0">
                     <span class="text-sm font-medium">Welcome, Admin!</span>
                 </div>
-                <button id="logout-btn" class="bg-orange-500 text-white font-bold py-1 px-4 rounded-full hover:bg-orange-600 transition-colors">Logout</button>
+                <button id="logout-btn" class="border border-white text-white font-bold py-1 px-4 rounded-full hover:bg-white hover:text-blue-900 transition-colors ml-4 mt-2 md:mt-0">Logout</button>
             </nav>
         </div>
     </header>
 
     <!-- Main Content Container -->
-    <main class="container mx-auto p-4 md:p-8 space-y-8">
+    <main class="container mx-auto p-4 md:p-8 space-y-8 max-w-6xl">
 
         <!-- Overall Summary -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="card bg-purple-100 text-purple-800 border-purple-300 text-center">
+            <div class="card bg-blue-100 text-blue-800 border-blue-300 text-center">
                 <p class="text-sm font-semibold mb-2">Total Inns Managed</p>
                 <div id="total-inns" class="text-5xl font-extrabold"></div>
             </div>
-            <div class="card bg-indigo-100 text-indigo-800 border-indigo-300 text-center">
+            <div class="card bg-sky-100 text-sky-800 border-sky-300 text-center">
                 <p class="text-sm font-semibold mb-2">Total Rooms Available</p>
                 <div id="total-rooms" class="text-5xl font-extrabold"></div>
             </div>
-            <div class="card bg-pink-100 text-pink-800 border-pink-300 text-center">
+            <div class="card bg-cyan-100 text-cyan-800 border-cyan-300 text-center">
                 <p class="text-sm font-semibold mb-2">Total Managers</p>
                 <div id="total-managers" class="text-5xl font-extrabold"></div>
             </div>
@@ -79,15 +79,15 @@
 
         <!-- Inn Statistics Section -->
         <section id="inn-stats" class="card mt-8">
-            <h2 class="text-2xl font-bold text-purple-800 mb-6">Inn Statistics & Ratings</h2>
+            <h2 class="text-2xl font-bold text-blue-800 mb-6">Inn Statistics & Ratings</h2>
             <div id="inn-list" class="space-y-6">
-                <!-- Inn cards will be populated by JS -->
+                <!-- Inn cards with sliders will be populated by JS -->
             </div>
         </section>
         
         <!-- User & Role Management Section -->
         <section id="user-management" class="card">
-            <h2 class="text-2xl font-bold text-purple-800 mb-6">User & Role Management</h2>
+            <h2 class="text-2xl font-bold text-blue-800 mb-6">User & Role Management</h2>
             <div class="overflow-x-auto rounded-lg shadow-inner">
                 <table class="w-full text-left table-auto">
                     <thead>
@@ -113,7 +113,7 @@
             <h3 id="modal-title" class="text-xl font-bold mb-2 text-slate-800"></h3>
             <p id="modal-message" class="text-slate-700 mb-6"></p>
             <button id="modal-close-btn"
-                class="w-full py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                 OK
             </button>
         </div>
@@ -148,7 +148,8 @@
                 monthlyBookings: 45,
                 occupancyRate: '75%',
                 roomsAvailable: 22,
-                totalRooms: 35
+                totalRooms: 35,
+                trends: 'Trending Up'
             },
             ratings: [{
                 user: 'John D.',
@@ -170,7 +171,8 @@
                 monthlyBookings: 60,
                 occupancyRate: '88%',
                 roomsAvailable: 15,
-                totalRooms: 40
+                totalRooms: 40,
+                trends: 'Trending Down'
             },
             ratings: [{
                 user: 'Emily W.',
@@ -227,6 +229,31 @@
             document.getElementById('total-managers').innerText = totalManagers;
         }
 
+        const slideTimers = {};
+        const currentSlides = {};
+
+        function changeSlide(innId, direction) {
+            const slidesContainer = document.getElementById(`slides-${innId}`);
+            if (!slidesContainer) return;
+
+            const totalSlides = 5;
+            let currentSlide = currentSlides[innId] || 0;
+            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+            
+            const newTransform = `translateX(-${currentSlide * 100}%)`;
+            slidesContainer.style.transform = newTransform;
+            currentSlides[innId] = currentSlide;
+        }
+
+        function startSlider(innId) {
+            if (slideTimers[innId]) {
+                clearInterval(slideTimers[innId]);
+            }
+            slideTimers[innId] = setInterval(() => {
+                changeSlide(innId, 1);
+            }, 5000);
+        }
+
         function renderInnList() {
             const container = document.getElementById('inn-list');
             container.innerHTML = '';
@@ -234,25 +261,64 @@
             inns.forEach(inn => {
                 const card = document.createElement('div');
                 card.className = 'card';
+                
+                card.addEventListener('mouseenter', () => clearInterval(slideTimers[inn.id]));
+                card.addEventListener('mouseleave', () => startSlider(inn.id));
+
+                const stats = [{
+                    title: 'Occupancy Rate',
+                    value: inn.stats.occupancyRate,
+                    color: 'text-green-600'
+                }, {
+                    title: 'Bookings This Month',
+                    value: inn.stats.monthlyBookings,
+                    color: 'text-blue-600'
+                }, {
+                    title: 'Rooms Available',
+                    value: `${inn.stats.roomsAvailable}/${inn.stats.totalRooms}`,
+                    color: 'text-cyan-600'
+                }, {
+                    title: 'Total Revenue',
+                    value: inn.stats.totalRevenue,
+                    color: 'text-purple-600'
+                }, {
+                    title: 'Trend',
+                    value: inn.stats.trends,
+                    color: inn.stats.trends === 'Trending Up' ? 'text-emerald-600' : 'text-rose-600'
+                }];
+                
+                const sliderHtml = `
+                    <div class="relative w-full overflow-hidden">
+                        <div id="slides-${inn.id}" class="flex transition-transform duration-500 ease-in-out" style="transform: translateX(0%);">
+                            ${stats.map(stat => `
+                                <div class="w-full flex-shrink-0 text-center p-4">
+                                    <p class="text-3xl font-bold ${stat.color}">${stat.value}</p>
+                                    <p class="text-sm text-slate-500">${stat.title}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <!-- Slider Controls -->
+                        <button onclick="changeSlide('${inn.id}', -1)"
+                            class="absolute top-1/2 left-0 -translate-y-1/2 p-2 rounded-full bg-slate-200 hover:bg-slate-300 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button onclick="changeSlide('${inn.id}', 1)"
+                            class="absolute top-1/2 right-0 -translate-y-1/2 p-2 rounded-full bg-slate-200 hover:bg-slate-300 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                `;
+
                 card.innerHTML = `
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold text-purple-800">${inn.name}</h3>
+                        <h3 class="text-xl font-bold text-blue-800">${inn.name}</h3>
                         <span class="text-sm text-slate-500">${inn.location}</span>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center border-t border-slate-200 pt-4">
-                        <div>
-                            <p class="text-3xl font-bold text-green-600">${inn.stats.occupancyRate}</p>
-                            <p class="text-sm text-slate-500">Occupancy Rate</p>
-                        </div>
-                        <div>
-                            <p class="text-3xl font-bold text-blue-600">${inn.stats.monthlyBookings}</p>
-                            <p class="text-sm text-slate-500">Bookings This Month</p>
-                        </div>
-                        <div>
-                            <p class="text-3xl font-bold text-pink-600">${inn.stats.roomsAvailable}/${inn.stats.totalRooms}</p>
-                            <p class="text-sm text-slate-500">Rooms Available</p>
-                        </div>
-                    </div>
+                    ${sliderHtml}
                     <div class="mt-4 pt-4 border-t border-slate-200">
                         <h4 class="font-semibold text-slate-700 mb-2">Recent Ratings:</h4>
                         <div class="space-y-2">
@@ -266,6 +332,7 @@
                     </div>
                 `;
                 container.appendChild(card);
+                startSlider(inn.id);
             });
         }
         
