@@ -351,46 +351,105 @@
 
         <!-- Booking Reservation Card -->
         <div class="card" id="booking">
-            <h2 class="text-2xl font-bold mb-4 text-blue-800">Booking Reservation 🛎️</h2>
-            <form id="bookingForm" class="space-y-4">
-                <label for="fullName" class="block text-slate-700 font-medium">Full Name:</label>
-                <input type="text" id="fullName" required placeholder="John Doe"
-                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+            <h2 class="text-2xl font-bold mb-6 text-blue-800 text-center">Your Reservation Details</h2>
+            <form id="bookingForm" class="space-y-6">
 
-                <label for="email" class="block text-slate-700 font-medium">Email:</label>
-                <input type="email" id="email" required placeholder="johndoe@example.com"
-                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                <!-- Full Name -->
+                <div>
+                    <label for="fullName" class="block text-sm font-medium text-slate-700 mb-1">
+                        <span class="flex items-center"><svg class="w-4 h-4 mr-2 text-slate-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>Full Name</span>
+                    </label>
+                    <input type="text" id="fullName" required placeholder="John Doe"
+                        class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                </div>
 
-                <label for="checkin" class="block text-slate-700 font-medium">Check-in Date:</label>
-                <input type="date" id="checkin" required
-                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-slate-700 mb-1">
+                        <span class="flex items-center"><svg class="w-4 h-4 mr-2 text-slate-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-2 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6m18 0l-9 5.99L3 10" />
+                            </svg>Email Address</span>
+                    </label>
+                    <input type="email" id="email" required placeholder="johndoe@example.com"
+                        class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                </div>
 
-                <label for="checkout" class="block text-slate-700 font-medium">Check-out Date:</label>
-                <input type="date" id="checkout" required
-                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                <!-- Dates Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="checkin" class="block text-sm font-medium text-slate-700 mb-1">
+                            <span class="flex items-center"><svg class="w-4 h-4 mr-2 text-slate-500" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 12h14a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2z" />
+                                </svg>Check-in Date</span>
+                        </label>
+                        <input type="date" id="checkin" required
+                            class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    </div>
+                    <div>
+                        <label for="checkout" class="block text-sm font-medium text-slate-700 mb-1">
+                            <span class="flex items-center"><svg class="w-4 h-4 mr-2 text-slate-500" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 12h14a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2z" />
+                                </svg>Check-out Date</span>
+                        </label>
+                        <input type="date" id="checkout" required
+                            class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    </div>
+                </div>
 
-                <label for="innSelect" class="block text-slate-700 font-medium">Inn Name:</label>
-                <select id="innSelect" required
-                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-                    <option value="">-- Select an Inn --</option>
-                </select>
+                <!-- Inn and Room Selects -->
+                <div>
+                    <label for="innSelect" class="block text-sm font-medium text-slate-700 mb-1">
+                        <span class="flex items-center"><svg class="w-4 h-4 mr-2 text-slate-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-2m8-10V9m-2 2v2m-6-2h.01M16 12a2 2 0 100-4 2 2 0 000 4z" />
+                            </svg>Select Inn</span>
+                    </label>
+                    <select id="innSelect" required
+                        class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <option value="">-- Select an Inn --</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="roomSelect" class="block text-sm font-medium text-slate-700 mb-1">
+                        <span class="flex items-center"><svg class="w-4 h-4 mr-2 text-slate-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 14v6m-3-3h6m-3-6a9 9 0 010 18m-9-9a9 9 0 0118 0z" />
+                            </svg>Room Type</span>
+                    </label>
+                    <select id="roomSelect" required disabled
+                        class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <option value="">-- Select a Room Type --</option>
+                    </select>
+                </div>
 
-                <label for="roomSelect" class="block text-slate-700 font-medium">Room Type:</label>
-                <select id="roomSelect" required disabled
-                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-                    <option value="">-- Select a Room Type --</option>
-                </select>
-
-                <label for="guests" class="block text-slate-700 font-medium">Guests:</label>
-                <input type="number" id="guests" min="1" max="15" value="1" required
-                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-
-                <!-- Real-time availability message -->
-                <div id="availability-status" class="text-center py-2 rounded-lg"></div>
+                <!-- Guests -->
+                <div>
+                    <label for="guests" class="block text-sm font-medium text-slate-700 mb-1">
+                        <span class="flex items-center"><svg class="w-4 h-4 mr-2 text-slate-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v.01M12 10v.01M12 16v.01M12 20v.01M4 12h.01M10 12h.01M16 12h.01M20 12h.01" />
+                            </svg>Number of Guests</span>
+                    </label>
+                    <input type="number" id="guests" min="1" max="15" value="1" required
+                        class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                </div>
 
                 <button type="submit"
-                    class="w-full py-3 bg-blue-600 text-white font-bold rounded-lg shadow-md hover:bg-blue-700 transition-colors">
-                    Reserve
+                    class="w-full py-4 bg-blue-600 text-white font-bold text-lg rounded-lg shadow-md hover:bg-blue-700 transition-colors transform hover:scale-105">
+                    Reserve Now
                 </button>
             </form>
         </div>
@@ -693,13 +752,13 @@
             const checkout = checkoutInput.value;
 
             if (!checkin || !checkout || new Date(checkin) >= new Date(checkout)) {
-                availabilityStatusDiv.innerHTML = '';
-                availabilityStatusDiv.className = '';
+                // availabilityStatusDiv.innerHTML = '';
+                // availabilityStatusDiv.className = '';
                 return;
             }
 
-            availabilityStatusDiv.innerText = 'Rooms available for these dates.';
-            availabilityStatusDiv.className = 'bg-green-100 text-green-700 font-bold';
+            // availabilityStatusDiv.innerText = 'Rooms available for these dates.';
+            // availabilityStatusDiv.className = 'bg-green-100 text-green-700 font-bold';
         };
 
         innSelect.addEventListener('change', updateRooms);
