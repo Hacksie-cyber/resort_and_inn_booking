@@ -56,11 +56,22 @@
         }
 
         .card {
-            @apply bg-white p-6 md:p-8 mt-24 rounded-3xl shadow-xl border border-slate-200;
+            @apply bg-white p-6 md:p-8 mt-8 rounded-3xl shadow-xl border border-slate-200;
         }
 
         .text-shadow {
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Custom spacing for section headers */
+        #about,
+        #location,
+        #explore,
+        #booking,
+        #ratings,
+        #stats {
+            margin-top: 3rem;
+            /* 48px or ~12 Tailwind units */
         }
     </style>
 </head>
@@ -68,7 +79,7 @@
 <body class="bg-slate-50 text-slate-900 leading-relaxed">
 
     <!-- Header Section -->
-    <header class="bg-blue-600 text-white py-12 px-8 rounded-b-3xl shadow-lg flex items-center justify-center relative">
+    <header class="bg-blue-600 text-white py-8 px-8 rounded-b-3xl shadow-lg flex items-center justify-center relative">
         <div class="text-center">
             <h1 class="text-4xl font-bold mb-2">Welcome to Tourist Inn</h1>
             <p class="text-xl italic font-light">Your comfort, our priority</p>
@@ -76,7 +87,7 @@
     </header>
 
     <!-- Navigation Bar -->
-    <nav class="bg-blue-800 text-white p-4 text-center sticky top-0 z-50 shadow-md">
+    <nav class="bg-blue-800 text-white py-4 px-8 text-center sticky top-0 z-50 shadow-md">
         <div class="container mx-auto flex justify-between items-center sm:block">
             <!-- Hamburger button for mobile menu -->
             <button id="mobile-menu-btn" class="sm:hidden text-white focus:outline-none">
@@ -106,7 +117,7 @@
 
         <!-- Home Section -->
         <div class="card" id="home">
-            <h2 class="text-2xl font-bold mb-4 text-blue-800">Your Perfect Getaway Awaits ✨</h2>
+            <h2 class="text-2xl font-bold mb-6 text-blue-800">Your Perfect Getaway Awaits ✨</h2>
             <p class="text-slate-700 mb-4">
                 Discover a relaxing and affordable escape at Tourist Inn. Whether you're traveling for business or
                 pleasure, our comfortable rooms and prime location make us the ideal choice for your stay.
@@ -186,7 +197,7 @@
 
         <!-- About Us Card -->
         <div class="card" id="about">
-            <h2 class="text-2xl font-bold mb-4 text-blue-800">About Us ℹ️</h2>
+            <h2 class="text-2xl font-bold mb-6 text-blue-800">About Us ℹ️</h2>
             <p class="text-slate-700">
                 Tourist Inn is proudly located in the heart of Dinagat Islands, a true hidden gem in the Philippines.
                 Dubbed the 'Island of Love', Dinagat offers a unique blend of stunning natural beauty and a peaceful
@@ -199,7 +210,7 @@
 
         <!-- Location Card -->
         <div class="card" id="location">
-            <h2 class="text-2xl font-bold mb-4 text-blue-800">Our Location 🗺️</h2>
+            <h2 class="text-2xl font-bold mb-6 text-blue-800">Our Location 🗺️</h2>
             <p class="text-slate-700 mb-4">Find us on the map. The pin shows our general location on Dinagat Islands.</p>
             <div id="map-container"></div>
             <button id="find-me-btn"
@@ -210,7 +221,7 @@
 
         <!-- New Explore Inns Card -->
         <div class="card" id="explore">
-            <h2 class="text-2xl font-bold mb-4 text-blue-800">Explore Inns by Location 🏨</h2>
+            <h2 class="text-2xl font-bold mb-6 text-blue-800">Explore Inns by Location 🏨</h2>
             <p class="text-slate-700 mb-4">Discover some of the best accommodations in Dinagat Island and view their
                 available room types.</p>
 
@@ -240,7 +251,7 @@
                             </button>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-blue-800 mb-2">Ocean View Inn</h3>
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">Ocean View Inn</h3>
                     <p class="text-slate-600 mb-2">A cozy inn with a fantastic view of the sea, located right on the
                         coast of Dinagat Island.</p>
                     <div class="flex items-center justify-between text-sm text-slate-700 mb-4">
@@ -285,7 +296,7 @@
                             </button>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-blue-800 mb-2">Mountain Breeze Lodge</h3>
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">Mountain Breeze Lodge</h3>
                     <p class="text-slate-600 mb-2">Nestled in the lush hills, this lodge offers a tranquil escape with
                         breathtaking mountain views.</p>
                     <div class="flex items-center justify-between text-sm text-slate-700 mb-4">
@@ -328,7 +339,7 @@
                             </button>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-blue-800 mb-2">Island Retreat Inn</h3>
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">Island Retreat Inn</h3>
                     <p class="text-slate-600 mb-2">A perfect spot for a quiet getaway, located near a secluded beach
                         with pristine white sand.</p>
                     <div class="flex items-center justify-between text-sm text-slate-700 mb-4">
@@ -456,7 +467,7 @@
 
         <!-- Customer Ratings Section -->
         <div class="card" id="ratings">
-            <h2 class="text-2xl font-bold mb-4 text-blue-800">Customer Ratings 👍</h2>
+            <h2 class="text-2xl font-bold mb-6 text-blue-800">Customer Ratings 👍</h2>
             <p class="text-slate-700 mb-4">Share your experience and see what other guests are saying!</p>
 
             <form id="ratingForm" class="space-y-4 mb-8">
@@ -482,7 +493,7 @@
                 </button>
             </form>
 
-            <h3 class="text-xl font-bold mb-2 text-blue-800">All Ratings</h3>
+            <h3 class="text-xl font-bold mb-4 text-blue-800">All Ratings</h3>
             <div id="ratings-container" class="space-y-4">
                 <!-- Ratings will be populated here by JavaScript -->
             </div>
@@ -490,7 +501,7 @@
 
         <!-- Statistics Section -->
         <div class="card" id="stats">
-            <h2 class="text-2xl font-bold mb-4 text-blue-800">Reservation Statistics 📊</h2>
+            <h2 class="text-2xl font-bold mb-6 text-blue-800">Reservation Statistics 📊</h2>
             <p class="text-slate-700 mb-4">Monthly reservation data:</p>
             <div id="stats-chart" class="flex items-end justify-around h-64 bg-gray-200 rounded-lg p-2 relative">
                 <!-- Monthly Stats chart will be populated here -->
@@ -976,6 +987,9 @@
 
         // --- Image Slider Logic (Self-contained) ---
         function initializeImageSliders() {
+            const sliderInstances = {};
+            const SLIDE_INTERVAL = 5000; // 5 seconds
+
             // A simple JavaScript object to map each slider's ID to its button IDs.
             const sliders = [{
                 id: 'image-slider-home',
@@ -995,16 +1009,38 @@
                 next: 'next-btn-island'
             }, ];
 
+            // Function to handle the auto-slide for a given slider
+            function startAutoSlide(sliderId) {
+                const slider = document.getElementById(sliderId);
+                const scrollStep = slider.offsetWidth + 16;
+                const totalWidth = slider.scrollWidth;
+
+                const intervalId = setInterval(() => {
+                    if (slider.scrollLeft + slider.offsetWidth >= totalWidth) {
+                        slider.scrollTo({
+                            left: 0,
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        slider.scrollBy({
+                            left: scrollStep,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, SLIDE_INTERVAL);
+
+                return intervalId;
+            }
+
             sliders.forEach(sliderInfo => {
                 const slider = document.getElementById(sliderInfo.id);
                 const prevBtn = document.getElementById(sliderInfo.prev);
                 const nextBtn = document.getElementById(sliderInfo.next);
 
                 if (slider && prevBtn && nextBtn) {
-                    // Calculate the scroll step based on the width of a single image and the gap.
-                    // This ensures smooth, image-by-image scrolling.
-                    const scrollStep = slider.offsetWidth + 16; // 16px for the gap between images
+                    const scrollStep = slider.offsetWidth + 16;
 
+                    // Manual Navigation Buttons
                     prevBtn.addEventListener('click', () => {
                         slider.scrollBy({
                             left: -scrollStep,
@@ -1017,6 +1053,27 @@
                             left: scrollStep,
                             behavior: 'smooth'
                         });
+                    });
+
+                    // Start automatic sliding
+                    sliderInstances[sliderInfo.id] = startAutoSlide(sliderInfo.id);
+
+                    // Pause auto-slide on manual scroll/interaction
+                    let manualScrolling = false;
+                    let scrollTimer = null;
+
+                    slider.addEventListener('scroll', () => {
+                        clearTimeout(scrollTimer);
+                        if (!manualScrolling) {
+                            clearInterval(sliderInstances[sliderInfo.id]);
+                            manualScrolling = true;
+                        }
+
+                        scrollTimer = setTimeout(() => {
+                            manualScrolling = false;
+                            clearInterval(sliderInstances[sliderInfo.id]);
+                            sliderInstances[sliderInfo.id] = startAutoSlide(sliderInfo.id);
+                        }, 500); // Resume auto-slide after 0.5s of no scrolling
                     });
                 }
             });
