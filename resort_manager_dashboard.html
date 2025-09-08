@@ -38,6 +38,18 @@
         .nav-link {
              @apply px-3 py-1 text-slate-200 hover:text-white transition-colors;
         }
+
+        .payment-status-unpaid {
+            @apply bg-red-100 text-red-800;
+        }
+
+        .payment-status-paid {
+            @apply bg-green-100 text-green-800;
+        }
+
+        .payment-status-partial {
+            @apply bg-orange-100 text-orange-800;
+        }
     </style>
 </head>
 
@@ -102,7 +114,10 @@
                             <th class="py-3 px-4 md:px-6 text-left">Room</th>
                             <th class="py-3 px-4 md:px-6 text-left">Dates</th>
                             <th class="py-3 px-4 md:px-6 text-center">Status</th>
+                            <th class="py-3 px-4 md:px-6 text-center">Payment</th>
+                            <th class="py-3 px-4 md:px-6 text-center">Payment Method</th>
                             <th class="py-3 px-4 md:px-6 text-center">Actions</th>
+                            <th class="py-3 px-4 md:px-6 text-center">Details</th>
                         </tr>
                     </thead>
                     <tbody id="reservations-table-body" class="text-sm md:text-base font-light divide-y divide-slate-200">
@@ -136,7 +151,7 @@
         </section>
     </main>
     
-    <!-- Custom Modal/Message Box -->
+    <!-- Custom Message Modal -->
     <div id="message-modal"
         class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm text-center">
@@ -146,6 +161,23 @@
                 class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                 OK
             </button>
+        </div>
+    </div>
+    
+    <!-- Reservation Details Modal -->
+    <div id="reservation-detail-modal"
+        class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 w-full max-w-lg relative">
+            <button id="detail-modal-close-btn"
+                class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h3 class="text-2xl font-bold text-blue-800 mb-4">Reservation Details</h3>
+            <div id="reservation-details-content" class="space-y-4 text-slate-700">
+                <!-- Details will be populated by JS -->
+            </div>
         </div>
     </div>
     
@@ -203,25 +235,33 @@
             guest: 'John Doe',
             room: 'Deluxe Room',
             dates: 'Dec 15 - Dec 18',
-            status: 'pending'
+            status: 'pending',
+            paymentStatus: 'unpaid',
+            paymentMethod: 'N/A'
         }, {
             id: '2',
             guest: 'Jane Smith',
             room: 'Standard Room',
             dates: 'Dec 20 - Dec 22',
-            status: 'approved'
+            status: 'approved',
+            paymentStatus: 'paid',
+            paymentMethod: 'GCash'
         }, {
             id: '3',
             guest: 'Peter Jones',
             room: 'Suite',
             dates: 'Dec 25 - Dec 28',
-            status: 'pending'
+            status: 'pending',
+            paymentStatus: 'unpaid',
+            paymentMethod: 'N/A'
         }, {
             id: '4',
             guest: 'Emily White',
             room: 'Standard Room',
             dates: 'Dec 10 - Dec 12',
-            status: 'canceled'
+            status: 'canceled',
+            paymentStatus: 'unpaid',
+            paymentMethod: 'N/A'
         }, ];
 
         const customerRatings = [{
@@ -247,14 +287,14 @@
         }, ];
         
         let photos = [{
-            url: "https://placehold.co/400x300/a855f7/ffffff?text=Lobby+View",
-            caption: "The elegant lobby of our inn."
+            url: "https://placehold.co/400x300/a855f7/ffffff?text=Standard+Rooms",
+            caption: "Standard Rooms"
         }, {
-            url: "https://placehold.co/400x300/3b82f6/ffffff?text=Room+Interior",
-            caption: "A comfortable and spacious Deluxe Room."
+            url: "https://placehold.co/400x300/3b82f6/ffffff?text=Deluxe",
+            caption: "Deluxe"
         }, {
-            url: "https://placehold.co/400x300/22c55e/ffffff?text=Poolside+Area",
-            caption: "Relax by our sparkling clean swimming pool."
+            url: "https://placehold.co/400x300/22c55e/ffffff?text=Suites",
+            caption: "Suites"
         }];
         
         // --- Resort Information Logic ---
@@ -347,6 +387,7 @@
             reservations.forEach(res => {
                 const row = document.createElement('tr');
                 let statusClass = '';
+                let paymentClass = '';
                 let actionsHtml = '';
 
                 switch (res.status) {
@@ -366,6 +407,18 @@
                         actionsHtml = `<span class="text-red-600 font-bold">Canceled</span>`;
                         break;
                 }
+                
+                switch (res.paymentStatus) {
+                    case 'unpaid':
+                        paymentClass = 'payment-status-unpaid';
+                        break;
+                    case 'paid':
+                        paymentClass = 'payment-status-paid';
+                        break;
+                    case 'partially-paid':
+                         paymentClass = 'payment-status-partial';
+                         break;
+                }
 
                 row.className = "hover:bg-slate-50 transition-colors duration-150";
                 row.innerHTML = `
@@ -373,7 +426,10 @@
                     <td class="py-4 px-4 md:px-6">${res.room}</td>
                     <td class="py-4 px-4 md:px-6">${res.dates}</td>
                     <td class="py-4 px-4 md:px-6 text-center"><span class="py-1 px-3 rounded-full text-xs font-bold ${statusClass}">${res.status.toUpperCase()}</span></td>
+                    <td class="py-4 px-4 md:px-6 text-center"><span class="py-1 px-3 rounded-full text-xs font-bold ${paymentClass}">${res.paymentStatus.toUpperCase().replace('-', ' ')}</span></td>
+                    <td class="py-4 px-4 md:px-6 text-center">${res.paymentMethod}</td>
                     <td class="py-4 px-4 md:px-6 text-center whitespace-nowrap">${actionsHtml}</td>
+                    <td class="py-4 px-4 md:px-6 text-center"><button onclick="showReservationDetails('${res.id}')" class="action-btn bg-slate-200 text-slate-700 hover:bg-slate-300">View Details</button></td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -392,6 +448,66 @@
                 }
             }
         }
+        
+        // --- Reservation Details Modal Logic ---
+        const detailModal = document.getElementById('reservation-detail-modal');
+        const detailModalContent = document.getElementById('reservation-details-content');
+        const detailModalCloseBtn = document.getElementById('detail-modal-close-btn');
+
+        function showReservationDetails(id) {
+            const reservation = reservations.find(res => res.id === id);
+            if (!reservation) {
+                showMessage("Error", "Reservation details not found.");
+                return;
+            }
+
+            let statusClass = '';
+            switch (reservation.status) {
+                case 'pending': statusClass = 'bg-amber-100 text-amber-800'; break;
+                case 'approved': statusClass = 'bg-green-100 text-green-800'; break;
+                case 'canceled': statusClass = 'bg-red-100 text-red-800'; break;
+            }
+            
+            let paymentClass = '';
+            switch (reservation.paymentStatus) {
+                case 'unpaid': paymentClass = 'bg-red-100 text-red-800'; break;
+                case 'paid': paymentClass = 'bg-green-100 text-green-800'; break;
+                case 'partially-paid': paymentClass = 'bg-orange-100 text-orange-800'; break;
+            }
+            
+            detailModalContent.innerHTML = `
+                <div class="space-y-2">
+                    <p class="text-sm text-slate-500 font-semibold uppercase">Guest Name</p>
+                    <p class="text-lg font-bold text-blue-700">${reservation.guest}</p>
+                </div>
+                <div class="space-y-2">
+                    <p class="text-sm text-slate-500 font-semibold uppercase">Room & Dates</p>
+                    <p class="text-base font-medium">${reservation.room} (${reservation.dates})</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="space-y-2">
+                        <p class="text-sm text-slate-500 font-semibold uppercase">Status</p>
+                        <span class="py-1 px-3 rounded-full text-xs font-bold ${statusClass}">${reservation.status.toUpperCase()}</span>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-sm text-slate-500 font-semibold uppercase">Payment</p>
+                        <span class="py-1 px-3 rounded-full text-xs font-bold ${paymentClass}">${reservation.paymentStatus.toUpperCase().replace('-', ' ')}</span>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <p class="text-sm text-slate-500 font-semibold uppercase">Payment Method</p>
+                    <p class="text-base font-medium">${reservation.paymentMethod}</p>
+                </div>
+            `;
+            
+            detailModal.classList.remove('hidden');
+            detailModal.classList.add('flex');
+        }
+        
+        detailModalCloseBtn.addEventListener('click', () => {
+            detailModal.classList.add('hidden');
+            detailModal.classList.remove('flex');
+        });
 
         // --- Customer Ratings Logic ---
         function renderRatings() {
