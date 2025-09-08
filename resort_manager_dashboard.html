@@ -304,15 +304,27 @@
             const mapUrl = `https://maps.google.com/maps?q=9.95,125.6&hl=en&z=11&output=embed`;
             
             container.innerHTML = `
-                <div class="flex items-center space-x-4">
-                    <h3 class="text-xl font-bold text-blue-600">${resortInfo.name}</h3>
+                <div class="flex items-center space-x-4 mb-2">
+                    <label for="resort-name-input" class="sr-only">Resort Name</label>
+                    <input type="text" id="resort-name-input" value="${resortInfo.name}"
+                        class="text-xl font-bold text-blue-600 bg-transparent border-b-2 border-transparent focus:border-blue-500 outline-none w-full"
+                    />
                 </div>
-                <p class="text-slate-700">${resortInfo.description}</p>
+                <div class="space-y-4">
+                    <label for="resort-description-input" class="sr-only">Resort Description</label>
+                    <textarea id="resort-description-input"
+                        class="w-full text-slate-700 bg-transparent border-b-2 border-transparent focus:border-blue-500 outline-none resize-none"
+                        rows="3"
+                    >${resortInfo.description}</textarea>
+                </div>
                 <div class="flex items-center space-x-2 text-sm text-slate-500 mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5.057 4.057a1 1 0 011.886 0L10 8.114l3.057-4.057a1 1 0 011.886 0L18 8.114V17a1 1 0 01-1 1H3a1 1 0 01-1-1V8.114L5.057 4.057zM8 12a2 2 0 114 0 2 2 0 01-4 0z" clip-rule="evenodd" />
                     </svg>
                     <span>${resortInfo.geolocation}</span>
+                </div>
+                <div class="flex justify-end mt-4">
+                    <button onclick="saveResortInfo()" class="action-btn bg-blue-600 text-white hover:bg-blue-700">Save Changes</button>
                 </div>
                  <div class="mt-4 rounded-xl overflow-hidden shadow-lg border border-slate-200">
                     <!-- Embedded Google Map -->
@@ -328,6 +340,17 @@
                     ></iframe>
                 </div>
             `;
+        }
+
+        function saveResortInfo() {
+            const nameInput = document.getElementById('resort-name-input');
+            const descriptionInput = document.getElementById('resort-description-input');
+            
+            resortInfo.name = nameInput.value;
+            resortInfo.description = descriptionInput.value;
+            
+            renderResortInfo();
+            showMessage("Changes Saved", "Resort information has been updated successfully.");
         }
 
         // --- Room Availability Logic ---
@@ -579,11 +602,14 @@
         }
         
         function deletePhoto(index) {
-            showMessage("Are you sure?", "This will permanently delete the photo.", () => {
+            // Confirm the deletion
+            const confirmDelete = () => {
                 photos.splice(index, 1);
                 renderPhotoGallery();
                 showMessage("Photo Deleted", "The photo has been removed from the gallery.");
-            });
+            };
+
+            showMessage("Confirm Deletion", "Are you sure you want to delete this photo?", confirmDelete);
         }
 
         function replacePhoto(index) {
